@@ -1,0 +1,22 @@
+﻿version: "3.9"
+
+services:
+    catalog.host:
+        build:
+            context: .
+            dockerfile: Catalog/Catalog.Host/Dockerfile
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:5000
+        ports:
+            - 80:5000
+
+    nginx.server:
+        image: nginx
+        volumes:
+            - ./templates:/etc/nginx/templates
+        ports:
+            - 8080:5001
+        environment:
+            - NGINX_HOST=http://localhost
+            - NGINX_PORT=5001

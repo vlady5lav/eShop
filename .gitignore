@@ -1,4 +1,4 @@
-### AL.gitignore
+﻿### AL.gitignore
 
 ### AL ###
 #Template for AL projects for Dynamics 365 Business Central
@@ -1791,12 +1791,16 @@ Vagrantfile
 crossrootfs
 
 # DNX
-launchSettings.json
+#launchSettings.json
 
 # Misc
 .generated-resources
 .terraform
 terraform.tfstate
 terraform.tfstate.backup
+
+# Editor configs & rules
+#[Ss]ettings.[Rr]ule[Ss]et
+#.[Ee]ditor[Cc]onfig
 
 
