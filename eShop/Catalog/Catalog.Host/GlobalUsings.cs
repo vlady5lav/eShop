@@ -4,7 +4,9 @@ global using System.Threading.Tasks;
 
 global using AutoMapper;
 
-global using Infrastructure.Common;
+global using Infrastructure;
+global using Infrastructure.Services;
+global using Infrastructure.Services.Interfaces;
 
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;

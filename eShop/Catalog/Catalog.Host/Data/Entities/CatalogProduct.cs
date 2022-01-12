@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Host.Data.Entities;
 
-public class CatalogItem
+public class CatalogProduct
 {
     public int Id { get; set; }
 

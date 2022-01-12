@@ -16,9 +16,13 @@ builder.Services.Configure<CatalogConfig>(configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
+builder.Services.AddTransient<ICatalogBrandRepository, CatalogBrandRepository>();
+builder.Services.AddTransient<ICatalogProductRepository, CatalogProductRepository>();
+builder.Services.AddTransient<ICatalogTypeRepository, CatalogTypeRepository>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
-builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
+builder.Services.AddTransient<ICatalogBrandService, CatalogBrandService>();
+builder.Services.AddTransient<ICatalogProductService, CatalogProductService>();
+builder.Services.AddTransient<ICatalogTypeService, CatalogTypeService>();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();

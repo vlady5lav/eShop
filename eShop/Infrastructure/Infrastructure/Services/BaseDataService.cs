@@ -1,6 +1,6 @@
-﻿using Catalog.Host.Services.Interfaces;
+﻿using Infrastructure.Services.Interfaces;
 
-namespace Catalog.Host.Services;
+namespace Infrastructure.Services;
 
 public abstract class BaseDataService<T>
     where T : DbContext
@@ -30,7 +30,7 @@ public abstract class BaseDataService<T>
             {
                 transaction.Rollback();
                 _logger.LogError(ex, $"transaction is rollbacked");
-                return default(T1)!;
+                return default!;
             }
         }
     }

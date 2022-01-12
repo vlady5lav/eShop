@@ -2,10 +2,10 @@
 
 namespace Catalog.Host.Data.EntityConfigurations;
 
-public class CatalogItemEntityTypeConfiguration
-    : IEntityTypeConfiguration<CatalogItem>
+public class CatalogProductEntityTypeConfiguration
+    : IEntityTypeConfiguration<CatalogProduct>
 {
-    public void Configure(EntityTypeBuilder<CatalogItem> builder)
+    public void Configure(EntityTypeBuilder<CatalogProduct> builder)
     {
         builder.ToTable("Catalog");
 

@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Host.Models.Dtos;
 
-public class CatalogItemDto
+public class CatalogProductDto
 {
     public int Id { get; set; }
 

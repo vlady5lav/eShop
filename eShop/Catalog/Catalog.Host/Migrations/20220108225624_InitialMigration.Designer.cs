@@ -34,7 +34,7 @@ namespace Catalog.Host.Migrations
             modelBuilder.HasSequence("catalog_type_hilo")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("Catalog.Host.Data.Entities.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.Host.Data.Entities.CatalogProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,7 +111,7 @@ namespace Catalog.Host.Migrations
                     b.ToTable("CatalogType", (string)null);
                 });
 
-            modelBuilder.Entity("Catalog.Host.Data.Entities.CatalogItem", b =>
+            modelBuilder.Entity("Catalog.Host.Data.Entities.CatalogProduct", b =>
                 {
                     b.HasOne("Catalog.Host.Data.Enums.CatalogBrand", "CatalogBrand")
                         .WithMany()
