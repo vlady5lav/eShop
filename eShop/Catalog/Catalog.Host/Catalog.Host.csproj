@@ -5,17 +5,19 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<CodeAnalysisRuleSet>../../settings.ruleset</CodeAnalysisRuleSet>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<WarningsAsErrors></WarningsAsErrors>
-		<WarningsNotAsErrors></WarningsNotAsErrors>
-		<DisabledWarnings></DisabledWarnings>
-		<NoWarn></NoWarn>
-		<UserSecretsId>ebdfc873-3d2c-44fd-bc9a-8a43e152f387</UserSecretsId>
-		<DockerfileContext>..\..</DockerfileContext>
+        <CodeAnalysisRuleSet>../../settings.ruleset</CodeAnalysisRuleSet>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <WarningsAsErrors></WarningsAsErrors>
+        <WarningsNotAsErrors></WarningsNotAsErrors>
+        <DisabledWarnings></DisabledWarnings>
+        <NoWarn></NoWarn>
+        <UserSecretsId>ebdfc873-3d2c-44fd-bc9a-8a43e152f387</UserSecretsId>
+        <DockerfileContext>..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
           <PrivateAssets>all</PrivateAssets>
@@ -28,6 +30,10 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure\Infrastructure.Common\Infrastructure.Common.csproj" />
     </ItemGroup>
 
 </Project>
