@@ -7,28 +7,31 @@ public class CatalogProductEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<CatalogProduct> builder)
     {
-        builder.ToTable("Catalog");
+        builder.ToTable("CatalogProduct");
 
-        builder.Property(ci => ci.Id)
-            .UseHiLo("catalog_hilo")
+        builder.Property(cp => cp.Id)
+            .UseHiLo("catalog_product_hilo")
             .IsRequired();
 
-        builder.Property(ci => ci.Name)
-            .IsRequired(true)
+        builder.Property(cp => cp.Name)
+            .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(ci => ci.Price)
-            .IsRequired(true);
-
-        builder.Property(ci => ci.PictureFileName)
+        builder.Property(cp => cp.Description)
             .IsRequired(false);
 
-        builder.HasOne(ci => ci.CatalogBrand)
-            .WithMany()
-            .HasForeignKey(ci => ci.CatalogBrandId);
+        builder.Property(cp => cp.Price)
+            .IsRequired();
 
-        builder.HasOne(ci => ci.CatalogType)
+        builder.Property(cp => cp.PictureFileName)
+            .IsRequired(false);
+
+        builder.HasOne(cp => cp.CatalogBrand)
             .WithMany()
-            .HasForeignKey(ci => ci.CatalogTypeId);
+            .HasForeignKey(cp => cp.CatalogBrandId);
+
+        builder.HasOne(cp => cp.CatalogType)
+            .WithMany()
+            .HasForeignKey(cp => cp.CatalogTypeId);
     }
 }

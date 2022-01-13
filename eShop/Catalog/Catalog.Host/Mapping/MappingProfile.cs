@@ -9,7 +9,7 @@ public class MappingProfile : Profile
     {
         CreateMap<CatalogProduct, CatalogProductDto>()
             .ForMember("PictureUrl", opt
-                => opt.MapFrom<CatalogProductPictureResolver, string>(c => c.PictureFileName));
+                => opt.MapFrom<CatalogProductPictureResolver, string>(cp => cp.PictureFileName ?? string.Empty));
         CreateMap<CatalogBrand, CatalogBrandDto>();
         CreateMap<CatalogType, CatalogTypeDto>();
     }

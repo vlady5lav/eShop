@@ -20,38 +20,70 @@ public class CatalogBrandController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(CreateBrandResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CreateBrandResponse<int>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Create(CreateBrandRequest request)
     {
         var result = await _catalogBrandService.CreateBrandAsync(request.Brand);
 
-        return Ok(new CreateBrandResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return Ok(new CreateBrandResponse<int?>() { Id = result });
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(DeleteBrandResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Delete(int id)
     {
         var result = await _catalogBrandService.DeleteBrandAsync(id);
 
-        return Ok(new DeleteBrandResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(DeleteBrandResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> DeleteByTitle(string brand)
     {
         var result = await _catalogBrandService.DeleteBrandByTitleAsync(brand);
 
-        return Ok(new DeleteBrandResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UpdateBrandResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateBrandRequest request)
     {
         var result = await _catalogBrandService.UpdateBrandAsync(request.Id, request.Brand);
 
-        return Ok(new UpdateBrandResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }

@@ -20,38 +20,70 @@ public class CatalogTypeController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(CreateTypeResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CreateTypeResponse<int>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Create(CreateTypeRequest request)
     {
         var result = await _catalogTypeService.CreateTypeAsync(request.Type);
 
-        return Ok(new CreateTypeResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return Ok(new CreateTypeResponse<int?>() { Id = result });
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(DeleteTypeResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Delete(int id)
     {
         var result = await _catalogTypeService.DeleteTypeAsync(id);
 
-        return Ok(new DeleteTypeResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(DeleteTypeResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> DeleteByTitle(string type)
     {
         var result = await _catalogTypeService.DeleteTypeByTitleAsync(type);
 
-        return Ok(new DeleteTypeResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UpdateTypeResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateTypeRequest request)
     {
         var result = await _catalogTypeService.UpdateTypeAsync(request.Id, request.Type);
 
-        return Ok(new UpdateTypeResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }

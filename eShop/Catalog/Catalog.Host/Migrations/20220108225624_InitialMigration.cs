@@ -13,7 +13,7 @@ namespace Catalog.Host.Migrations
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "catalog_hilo",
+                name: "catalog_product_hilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
@@ -45,12 +45,12 @@ namespace Catalog.Host.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Catalog",
+                name: "CatalogProduct",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     PictureFileName = table.Column<string>(type: "text", nullable: true),
                     CatalogTypeId = table.Column<int>(type: "integer", nullable: false),
@@ -88,7 +88,7 @@ namespace Catalog.Host.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Catalog");
+                name: "CatalogProduct");
 
             migrationBuilder.DropTable(
                 name: "CatalogBrand");
@@ -100,7 +100,7 @@ namespace Catalog.Host.Migrations
                 name: "catalog_brand_hilo");
 
             migrationBuilder.DropSequence(
-                name: "catalog_hilo");
+                name: "catalog_product_hilo");
 
             migrationBuilder.DropSequence(
                 name: "catalog_type_hilo");

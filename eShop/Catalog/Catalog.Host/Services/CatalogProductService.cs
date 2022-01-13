@@ -23,9 +23,9 @@ public class CatalogProductService : BaseDataService<ApplicationDbContext>, ICat
         _mapper = mapper;
     }
 
-    public async Task<int?> CreateProductAsync(string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
+    public async Task<int?> CreateProductAsync(string name, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string? description, string? pictureFileName)
     {
-        return await ExecuteSafe(async () => await _catalogProductRepository.AddAsync(name, description, price, availableStock, catalogBrandId, catalogTypeId, pictureFileName));
+        return await ExecuteSafe(async () => await _catalogProductRepository.AddAsync(name, price, availableStock, catalogBrandId, catalogTypeId, description, pictureFileName));
     }
 
     public async Task<int?> DeleteProductAsync(int id)

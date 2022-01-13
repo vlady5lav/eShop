@@ -23,7 +23,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogBrands
-            .OrderBy(ci => ci.Brand)
+            .OrderBy(cb => cb.Brand)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -33,17 +33,17 @@ public class CatalogBrandRepository : ICatalogBrandRepository
 
     public async Task<IEnumerable<CatalogBrand>?> GetBrandsAsync()
     {
-        var items = await _dbContext.CatalogBrands
+        var result = await _dbContext.CatalogBrands
             .OrderBy(cb => cb.Brand)
             .ToListAsync();
 
-        return items;
+        return result;
     }
 
     public async Task<CatalogBrand?> GetByIdAsync(int id)
     {
         var result = await _dbContext.CatalogBrands
-            .SingleOrDefaultAsync(cb => cb.Id == id);
+            .FirstOrDefaultAsync(cb => cb.Id == id);
 
         return result;
     }
@@ -51,17 +51,19 @@ public class CatalogBrandRepository : ICatalogBrandRepository
     public async Task<CatalogBrand?> GetByBrandAsync(string brand)
     {
         var result = await _dbContext.CatalogBrands
-            .SingleOrDefaultAsync(cb => cb.Brand == brand);
+            .FirstOrDefaultAsync(cb => cb.Brand == brand);
 
         return result;
     }
 
     public async Task<int?> AddAsync(string brand)
     {
-        var item = await _dbContext.CatalogBrands.AddAsync(new CatalogBrand
+        var addItem = new CatalogBrand
         {
             Brand = brand,
-        });
+        };
+
+        var item = await _dbContext.CatalogBrands.AddAsync(addItem);
 
         await _dbContext.SaveChangesAsync();
 
@@ -70,36 +72,57 @@ public class CatalogBrandRepository : ICatalogBrandRepository
 
     public async Task<int?> RemoveAsync(int id)
     {
-        var item = await _dbContext.CatalogBrands.SingleOrDefaultAsync(cb => cb.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
 
-        _dbContext.CatalogBrands.Remove(item);
+        if (item != null)
+        {
+            _dbContext.CatalogBrands.Remove(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async Task<int?> RemoveByTitleAsync(string brand)
     {
-        var item = await _dbContext.CatalogBrands.SingleOrDefaultAsync(cb => cb.Brand == brand) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Brand == brand);
 
-        _dbContext.CatalogBrands.Remove(item);
+        if (item != null)
+        {
+            _dbContext.CatalogBrands.Remove(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async Task<int?> UpdateAsync(int id, string brand)
     {
-        var item = await _dbContext.CatalogBrands.SingleOrDefaultAsync(cb => cb.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
 
-        item.Brand = brand;
+        if (item != null)
+        {
+            item.Brand = brand;
 
-        _dbContext.CatalogBrands.Update(item);
+            _dbContext.CatalogBrands.Update(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

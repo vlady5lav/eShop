@@ -26,7 +26,7 @@ namespace Catalog.Host.Migrations
             modelBuilder.HasSequence("catalog_brand_hilo")
                 .IncrementsBy(10);
 
-            modelBuilder.HasSequence("catalog_hilo")
+            modelBuilder.HasSequence("catalog_product_hilo")
                 .IncrementsBy(10);
 
             modelBuilder.HasSequence("catalog_type_hilo")
@@ -38,7 +38,7 @@ namespace Catalog.Host.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "catalog_hilo");
+                    NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "catalog_product_hilo");
 
                     b.Property<int>("AvailableStock")
                         .HasColumnType("integer");
@@ -50,7 +50,6 @@ namespace Catalog.Host.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -70,7 +69,7 @@ namespace Catalog.Host.Migrations
 
                     b.HasIndex("CatalogTypeId");
 
-                    b.ToTable("Catalog", (string)null);
+                    b.ToTable("CatalogProduct", (string)null);
                 });
 
             modelBuilder.Entity("Catalog.Host.Data.Enums.CatalogBrand", b =>

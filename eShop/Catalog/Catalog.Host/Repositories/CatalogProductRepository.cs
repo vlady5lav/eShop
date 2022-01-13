@@ -23,9 +23,9 @@ public class CatalogProductRepository : ICatalogProductRepository
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Include(ci => ci.CatalogType)
-            .OrderBy(ci => ci.Name)
+            .Include(cp => cp.CatalogBrand)
+            .Include(cp => cp.CatalogType)
+            .OrderBy(cp => cp.Name)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -35,21 +35,21 @@ public class CatalogProductRepository : ICatalogProductRepository
 
     public async Task<IEnumerable<CatalogProduct>?> GetProductsAsync()
     {
-        var items = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Include(ci => ci.CatalogType)
+        var result = await _dbContext.CatalogProducts
+            .Include(cp => cp.CatalogBrand)
+            .Include(cp => cp.CatalogType)
             .OrderBy(cb => cb.Name)
             .ToListAsync();
 
-        return items;
+        return result;
     }
 
     public async Task<CatalogProduct?> GetByIdAsync(int id)
     {
         var result = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Include(ci => ci.CatalogType)
-            .SingleOrDefaultAsync(ci => ci.Id == id);
+            .Include(cp => cp.CatalogBrand)
+            .Include(cp => cp.CatalogType)
+            .FirstOrDefaultAsync(cp => cp.Id == id);
 
         return result;
     }
@@ -57,15 +57,15 @@ public class CatalogProductRepository : ICatalogProductRepository
     public async Task<PaginatedItems<CatalogProduct>?> GetByBrandIdAsync(int id, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Where(ci => ci.CatalogBrand.Id == id)
+            .Include(cp => cp.CatalogBrand)
+            .Where(cp => cp.CatalogBrand.Id == id)
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Where(ci => ci.CatalogBrand.Id == id)
-            .Include(ci => ci.CatalogType)
-            .OrderBy(ci => ci.Name)
+            .Include(cp => cp.CatalogBrand)
+            .Where(cp => cp.CatalogBrand.Id == id)
+            .Include(cp => cp.CatalogType)
+            .OrderBy(cp => cp.Name)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -76,15 +76,15 @@ public class CatalogProductRepository : ICatalogProductRepository
     public async Task<PaginatedItems<CatalogProduct>?> GetByBrandAsync(string brand, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Where(ci => ci.CatalogBrand.Brand == brand)
+            .Include(cp => cp.CatalogBrand)
+            .Where(cp => cp.CatalogBrand.Brand == brand)
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogBrand)
-            .Where(ci => ci.CatalogBrand.Brand == brand)
-            .Include(ci => ci.CatalogType)
-            .OrderBy(ci => ci.Name)
+            .Include(cp => cp.CatalogBrand)
+            .Where(cp => cp.CatalogBrand.Brand == brand)
+            .Include(cp => cp.CatalogType)
+            .OrderBy(cp => cp.Name)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -95,15 +95,15 @@ public class CatalogProductRepository : ICatalogProductRepository
     public async Task<PaginatedItems<CatalogProduct>?> GetByTypeIdAsync(int id, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogType)
-            .Where(ci => ci.CatalogType.Id == id)
+            .Include(cp => cp.CatalogType)
+            .Where(cp => cp.CatalogType.Id == id)
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogType)
-            .Where(ci => ci.CatalogType.Id == id)
-            .Include(ci => ci.CatalogBrand)
-            .OrderBy(ci => ci.Name)
+            .Include(cp => cp.CatalogType)
+            .Where(cp => cp.CatalogType.Id == id)
+            .Include(cp => cp.CatalogBrand)
+            .OrderBy(cp => cp.Name)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -114,15 +114,15 @@ public class CatalogProductRepository : ICatalogProductRepository
     public async Task<PaginatedItems<CatalogProduct>?> GetByTypeAsync(string type, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogType)
-            .Where(ci => ci.CatalogType.Type == type)
+            .Include(cp => cp.CatalogType)
+            .Where(cp => cp.CatalogType.Type == type)
             .LongCountAsync();
 
         var itemsOnPage = await _dbContext.CatalogProducts
-            .Include(ci => ci.CatalogType)
-            .Where(ci => ci.CatalogType.Type == type)
-            .Include(ci => ci.CatalogBrand)
-            .OrderBy(ci => ci.Name)
+            .Include(cp => cp.CatalogType)
+            .Where(cp => cp.CatalogType.Type == type)
+            .Include(cp => cp.CatalogBrand)
+            .OrderBy(cp => cp.Name)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -130,18 +130,20 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<int?> AddAsync(string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
+    public async Task<int?> AddAsync(string name, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string? description, string? pictureFileName)
     {
-        var item = await _dbContext.CatalogProducts.AddAsync(new CatalogProduct
+        var addItem = new CatalogProduct
         {
             Name = name,
-            Description = description,
+            Description = description ?? null,
             Price = price,
             AvailableStock = availableStock,
             CatalogBrandId = catalogBrandId,
             CatalogTypeId = catalogTypeId,
-            PictureFileName = pictureFileName,
-        });
+            PictureFileName = pictureFileName ?? null,
+        };
+
+        var item = await _dbContext.CatalogProducts.AddAsync(addItem);
 
         await _dbContext.SaveChangesAsync();
 
@@ -150,31 +152,45 @@ public class CatalogProductRepository : ICatalogProductRepository
 
     public async Task<int?> RemoveAsync(int id)
     {
-        var item = await _dbContext.CatalogProducts.SingleOrDefaultAsync(ci => ci.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogProducts.FirstOrDefaultAsync(cp => cp.Id == id);
 
-        _dbContext.CatalogProducts.Remove(item);
+        if (item != null)
+        {
+            _dbContext.CatalogProducts.Remove(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async Task<int?> UpdateAsync(int id, string? name, string? description, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? pictureFileName)
     {
-        var item = await _dbContext.CatalogProducts.SingleOrDefaultAsync(ci => ci.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogProducts.FirstOrDefaultAsync(cp => cp.Id == id);
 
-        item.Name = name ?? item.Name;
-        item.Description = description ?? item.Description;
-        item.Price = price ?? item.Price;
-        item.AvailableStock = availableStock ?? item.AvailableStock;
-        item.CatalogBrandId = catalogBrandId ?? item.CatalogBrandId;
-        item.CatalogTypeId = catalogTypeId ?? item.CatalogTypeId;
-        item.PictureFileName = pictureFileName ?? item.PictureFileName;
+        if (item != null)
+        {
+            item.Name = name ?? item.Name;
+            item.Description = description ?? item.Description;
+            item.Price = price ?? item.Price;
+            item.AvailableStock = availableStock ?? item.AvailableStock;
+            item.CatalogBrandId = catalogBrandId ?? item.CatalogBrandId;
+            item.CatalogTypeId = catalogTypeId ?? item.CatalogTypeId;
+            item.PictureFileName = pictureFileName ?? item.PictureFileName;
 
-        _dbContext.CatalogProducts.Update(item);
+            _dbContext.CatalogProducts.Update(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

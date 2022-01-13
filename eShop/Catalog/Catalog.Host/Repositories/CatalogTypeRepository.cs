@@ -33,17 +33,17 @@ public class CatalogTypeRepository : ICatalogTypeRepository
 
     public async Task<IEnumerable<CatalogType>?> GetTypesAsync()
     {
-        var items = await _dbContext.CatalogTypes
+        var result = await _dbContext.CatalogTypes
             .OrderBy(ct => ct.Type)
             .ToListAsync();
 
-        return items;
+        return result;
     }
 
     public async Task<CatalogType?> GetByIdAsync(int id)
     {
         var result = await _dbContext.CatalogTypes
-            .SingleOrDefaultAsync(ct => ct.Id == id);
+            .FirstOrDefaultAsync(ct => ct.Id == id);
 
         return result;
     }
@@ -51,17 +51,19 @@ public class CatalogTypeRepository : ICatalogTypeRepository
     public async Task<CatalogType?> GetByTypeAsync(string type)
     {
         var result = await _dbContext.CatalogTypes
-            .SingleOrDefaultAsync(ct => ct.Type == type);
+            .FirstOrDefaultAsync(ct => ct.Type == type);
 
         return result;
     }
 
     public async Task<int?> AddAsync(string type)
     {
-        var item = await _dbContext.CatalogTypes.AddAsync(new CatalogType
+        var addItem = new CatalogType
         {
             Type = type,
-        });
+        };
+
+        var item = await _dbContext.CatalogTypes.AddAsync(addItem);
 
         await _dbContext.SaveChangesAsync();
 
@@ -70,36 +72,57 @@ public class CatalogTypeRepository : ICatalogTypeRepository
 
     public async Task<int?> RemoveAsync(int id)
     {
-        var item = await _dbContext.CatalogTypes.SingleOrDefaultAsync(ct => ct.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
 
-        _dbContext.CatalogTypes.Remove(item);
+        if (item != null)
+        {
+            _dbContext.CatalogTypes.Remove(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async Task<int?> RemoveByTitleAsync(string type)
     {
-        var item = await _dbContext.CatalogTypes.SingleOrDefaultAsync(ct => ct.Type == type) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Type == type);
 
-        _dbContext.CatalogTypes.Remove(item);
+        if (item != null)
+        {
+            _dbContext.CatalogTypes.Remove(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public async Task<int?> UpdateAsync(int id, string type)
     {
-        var item = await _dbContext.CatalogTypes.SingleOrDefaultAsync(ct => ct.Id == id) ?? throw new NullReferenceException();
+        var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
 
-        item.Type = type;
+        if (item != null)
+        {
+            item.Type = type;
 
-        _dbContext.CatalogTypes.Update(item);
+            _dbContext.CatalogTypes.Update(item);
 
-        await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-        return item.Id;
+            return item.Id;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

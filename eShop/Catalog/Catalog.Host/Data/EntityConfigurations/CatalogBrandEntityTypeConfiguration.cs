@@ -9,9 +9,9 @@ public class CatalogBrandEntityTypeConfiguration
     {
         builder.ToTable("CatalogBrand");
 
-        builder.HasKey(ci => ci.Id);
+        builder.HasKey(cb => cb.Id);
 
-        builder.Property(ci => ci.Id)
+        builder.Property(cb => cb.Id)
             .UseHiLo("catalog_brand_hilo")
             .IsRequired();
 

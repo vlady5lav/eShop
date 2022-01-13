@@ -9,13 +9,13 @@ public class CatalogTypeEntityTypeConfiguration
     {
         builder.ToTable("CatalogType");
 
-        builder.HasKey(ci => ci.Id);
+        builder.HasKey(ct => ct.Id);
 
-        builder.Property(ci => ci.Id)
+        builder.Property(ct => ct.Id)
             .UseHiLo("catalog_type_hilo")
             .IsRequired();
 
-        builder.Property(cb => cb.Type)
+        builder.Property(ct => ct.Type)
             .IsRequired()
             .HasMaxLength(100);
     }

@@ -20,29 +20,53 @@ public class CatalogProductController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(CreateProductResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CreateProductResponse<int>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Create(CreateProductRequest request)
     {
-        var result = await _catalogProductService.CreateProductAsync(request.Name, request.Description, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.PictureFileName);
+        var result = await _catalogProductService.CreateProductAsync(request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
 
-        return Ok(new CreateProductResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return Ok(new CreateProductResponse<int?>() { Id = result });
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(DeleteProductResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Delete(int id)
     {
         var result = await _catalogProductService.DeleteProductAsync(id);
 
-        return Ok(new DeleteProductResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UpdateProductResponse<int?>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateProductRequest request)
     {
         var result = await _catalogProductService.UpdateProductAsync(request.Id, request.Name, request.Description, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.PictureFileName);
 
-        return Ok(new UpdateProductResponse<int?>() { Id = result });
+        if (result != null)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }

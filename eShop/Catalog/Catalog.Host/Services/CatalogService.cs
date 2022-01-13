@@ -44,7 +44,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogProductDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogProductDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogProductDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -80,7 +80,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogProductDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogProductDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogProductDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -101,7 +101,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogProductDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogProductDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogProductDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -122,7 +122,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogProductDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogProductDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogProductDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -143,7 +143,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogProductDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogProductDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogProductDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -164,7 +164,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogBrandDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogBrandDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogBrandDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
@@ -200,7 +200,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             return new PaginatedItemsResponse<CatalogTypeDto>()
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(ci => _mapper.Map<CatalogTypeDto>(ci)).ToList(),
+                Data = result.Data.Select(cp => _mapper.Map<CatalogTypeDto>(cp)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
