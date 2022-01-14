@@ -9,8 +9,8 @@ public interface ICatalogBrandRepository
     Task<int?> RemoveAsync(int id);
     Task<int?> RemoveByTitleAsync(string brand);
     Task<int?> UpdateAsync(int id, string brand);
-    Task<CatalogBrand?> GetByBrandAsync(string brand);
-    Task<CatalogBrand?> GetByIdAsync(int id);
+    Task<CatalogBrand?> GetByBrandTitleAsync(string brand);
+    Task<CatalogBrand?> GetByBrandIdAsync(int id);
     Task<IEnumerable<CatalogBrand>?> GetBrandsAsync();
     Task<PaginatedItems<CatalogBrand>?> GetByPageAsync(int pageIndex, int pageSize);
 }

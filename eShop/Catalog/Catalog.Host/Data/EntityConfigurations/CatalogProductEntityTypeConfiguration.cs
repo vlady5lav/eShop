@@ -17,11 +17,14 @@ public class CatalogProductEntityTypeConfiguration
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(cp => cp.Description)
-            .IsRequired(false);
-
         builder.Property(cp => cp.Price)
             .IsRequired();
+
+        builder.Property(cp => cp.AvailableStock)
+            .IsRequired();
+
+        builder.Property(cp => cp.Description)
+            .IsRequired(false);
 
         builder.Property(cp => cp.PictureFileName)
             .IsRequired(false);

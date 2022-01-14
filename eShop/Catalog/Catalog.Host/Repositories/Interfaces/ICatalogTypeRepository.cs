@@ -9,8 +9,8 @@ public interface ICatalogTypeRepository
     Task<int?> RemoveAsync(int id);
     Task<int?> RemoveByTitleAsync(string type);
     Task<int?> UpdateAsync(int id, string type);
-    Task<CatalogType?> GetByTypeAsync(string type);
-    Task<CatalogType?> GetByIdAsync(int id);
+    Task<CatalogType?> GetByTypeIdAsync(int id);
+    Task<CatalogType?> GetByTypeTitleAsync(string type);
     Task<IEnumerable<CatalogType>?> GetTypesAsync();
     Task<PaginatedItems<CatalogType>?> GetByPageAsync(int pageIndex, int pageSize);
 }

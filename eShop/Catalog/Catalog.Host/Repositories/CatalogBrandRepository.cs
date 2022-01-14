@@ -40,7 +40,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         return result;
     }
 
-    public async Task<CatalogBrand?> GetByIdAsync(int id)
+    public async Task<CatalogBrand?> GetByBrandIdAsync(int id)
     {
         var result = await _dbContext.CatalogBrands
             .FirstOrDefaultAsync(cb => cb.Id == id);
@@ -48,7 +48,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         return result;
     }
 
-    public async Task<CatalogBrand?> GetByBrandAsync(string brand)
+    public async Task<CatalogBrand?> GetByBrandTitleAsync(string brand)
     {
         var result = await _dbContext.CatalogBrands
             .FirstOrDefaultAsync(cb => cb.Brand == brand);

@@ -1,5 +1,5 @@
 ﻿using Catalog.Host.Models.Requests;
-using Catalog.Host.Models.Response;
+using Catalog.Host.Models.Responses;
 using Catalog.Host.Services.Interfaces;
 
 namespace Catalog.Host.Controllers;
@@ -58,7 +58,7 @@ public class CatalogProductController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateProductRequest request)
     {
-        var result = await _catalogProductService.UpdateProductAsync(request.Id, request.Name, request.Description, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.PictureFileName);
+        var result = await _catalogProductService.UpdateProductAsync(request.Id, request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
 
         if (result != null)
         {

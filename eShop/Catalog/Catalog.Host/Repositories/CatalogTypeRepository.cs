@@ -40,7 +40,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         return result;
     }
 
-    public async Task<CatalogType?> GetByIdAsync(int id)
+    public async Task<CatalogType?> GetByTypeIdAsync(int id)
     {
         var result = await _dbContext.CatalogTypes
             .FirstOrDefaultAsync(ct => ct.Id == id);
@@ -48,7 +48,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         return result;
     }
 
-    public async Task<CatalogType?> GetByTypeAsync(string type)
+    public async Task<CatalogType?> GetByTypeTitleAsync(string type)
     {
         var result = await _dbContext.CatalogTypes
             .FirstOrDefaultAsync(ct => ct.Type == type);

@@ -1,6 +1,6 @@
 ﻿using Catalog.Host.Data;
 using Catalog.Host.Models.Dtos;
-using Catalog.Host.Models.Response;
+using Catalog.Host.Models.Responses;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 
@@ -11,23 +11,51 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     private readonly ICatalogBrandRepository _catalogBrandRepository;
     private readonly ICatalogProductRepository _catalogProductRepository;
     private readonly ICatalogTypeRepository _catalogTypeRepository;
-    private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
     public CatalogService(
         IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
         ILogger<BaseDataService<ApplicationDbContext>> logger,
+        IMapper mapper,
         ICatalogBrandRepository catalogBrandRepository,
         ICatalogProductRepository catalogProductRepository,
-        ICatalogTypeRepository catalogTypeRepository,
-        IMapper mapper)
+        ICatalogTypeRepository catalogTypeRepository)
         : base(dbContextWrapper, logger)
     {
         _catalogBrandRepository = catalogBrandRepository;
         _catalogProductRepository = catalogProductRepository;
         _catalogTypeRepository = catalogTypeRepository;
-        _logger = logger;
         _mapper = mapper;
+    }
+
+    public async Task<CatalogProductDto?> GetProductByIdAsync(int id)
+    {
+        return await ExecuteSafe(async () =>
+        {
+            var result = await _catalogProductRepository.GetByIdAsync(id);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<CatalogProductDto>(result);
+        });
+    }
+
+    public async Task<IEnumerable<CatalogProductDto>?> GetProductsAsync()
+    {
+        return await ExecuteSafe(async () =>
+        {
+            var result = await _catalogProductRepository.GetProductsAsync();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<IEnumerable<CatalogProductDto>?>(result);
+        });
     }
 
     public async Task<PaginatedItemsResponse<CatalogProductDto>?> GetProductsByPageAsync(int pageSize, int pageIndex)
@@ -48,21 +76,6 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
-        });
-    }
-
-    public async Task<IEnumerable<CatalogProductDto>?> GetProductsAsync()
-    {
-        return await ExecuteSafe(async () =>
-        {
-            var result = await _catalogProductRepository.GetProductsAsync();
-
-            if (result == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<IEnumerable<CatalogProductDto>?>(result);
         });
     }
 
@@ -87,11 +100,11 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<PaginatedItemsResponse<CatalogProductDto>?> GetProductsByBrandAsync(string brand, int pageSize, int pageIndex)
+    public async Task<PaginatedItemsResponse<CatalogProductDto>?> GetProductsByBrandTitleAsync(string brand, int pageSize, int pageIndex)
     {
         return await ExecuteSafe(async () =>
         {
-            var result = await _catalogProductRepository.GetByBrandAsync(brand, pageIndex, pageSize);
+            var result = await _catalogProductRepository.GetByBrandTitleAsync(brand, pageIndex, pageSize);
 
             if (result == null)
             {
@@ -129,11 +142,11 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<PaginatedItemsResponse<CatalogProductDto>?> GetProductsByTypeAsync(string type, int pageSize, int pageIndex)
+    public async Task<PaginatedItemsResponse<CatalogProductDto>?> GetProductsByTypeTitleAsync(string type, int pageSize, int pageIndex)
     {
         return await ExecuteSafe(async () =>
         {
-            var result = await _catalogProductRepository.GetByTypeAsync(type, pageIndex, pageSize);
+            var result = await _catalogProductRepository.GetByTypeTitleAsync(type, pageIndex, pageSize);
 
             if (result == null)
             {
@@ -147,6 +160,21 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
+        });
+    }
+
+    public async Task<IEnumerable<CatalogBrandDto>?> GetBrandsAsync()
+    {
+        return await ExecuteSafe(async () =>
+        {
+            var result = await _catalogBrandRepository.GetBrandsAsync();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<IEnumerable<CatalogBrandDto>?>(result);
         });
     }
 
@@ -171,18 +199,18 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<IEnumerable<CatalogBrandDto>?> GetBrandsAsync()
+    public async Task<IEnumerable<CatalogTypeDto>?> GetTypesAsync()
     {
         return await ExecuteSafe(async () =>
         {
-            var result = await _catalogBrandRepository.GetBrandsAsync();
+            var result = await _catalogTypeRepository.GetTypesAsync();
 
             if (result == null)
             {
                 return null;
             }
 
-            return _mapper.Map<IEnumerable<CatalogBrandDto>?>(result);
+            return _mapper.Map<IEnumerable<CatalogTypeDto>?>(result);
         });
     }
 
@@ -204,21 +232,6 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
-        });
-    }
-
-    public async Task<IEnumerable<CatalogTypeDto>?> GetTypesAsync()
-    {
-        return await ExecuteSafe(async () =>
-        {
-            var result = await _catalogTypeRepository.GetTypesAsync();
-
-            if (result == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<IEnumerable<CatalogTypeDto>?>(result);
         });
     }
 }

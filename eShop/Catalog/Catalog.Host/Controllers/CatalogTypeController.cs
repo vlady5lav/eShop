@@ -1,5 +1,5 @@
 ﻿using Catalog.Host.Models.Requests;
-using Catalog.Host.Models.Response;
+using Catalog.Host.Models.Responses;
 using Catalog.Host.Services.Interfaces;
 
 namespace Catalog.Host.Controllers;

@@ -30,7 +30,7 @@ public abstract class BaseDataService<T>
             {
                 transaction.Rollback();
                 _logger.LogError(ex, $"transaction is rollbacked");
-                return default!;
+                return default(T1)!;
             }
         }
     }

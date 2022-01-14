@@ -1,4 +1,4 @@
-﻿namespace Catalog.Host.Models.Response;
+﻿namespace Catalog.Host.Models.Responses;
 
 public class PaginatedItemsResponse<T>
 {

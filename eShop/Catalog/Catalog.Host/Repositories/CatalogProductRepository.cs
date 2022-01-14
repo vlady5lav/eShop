@@ -73,7 +73,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandAsync(string brand, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandTitleAsync(string brand, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogBrand)
@@ -111,7 +111,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeAsync(string type, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeTitleAsync(string type, int pageIndex, int pageSize)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogType)
@@ -135,11 +135,11 @@ public class CatalogProductRepository : ICatalogProductRepository
         var addItem = new CatalogProduct
         {
             Name = name,
-            Description = description ?? null,
             Price = price,
             AvailableStock = availableStock,
             CatalogBrandId = catalogBrandId,
             CatalogTypeId = catalogTypeId,
+            Description = description ?? null,
             PictureFileName = pictureFileName ?? null,
         };
 
@@ -168,18 +168,18 @@ public class CatalogProductRepository : ICatalogProductRepository
         }
     }
 
-    public async Task<int?> UpdateAsync(int id, string? name, string? description, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? pictureFileName)
+    public async Task<int?> UpdateAsync(int id, string? name, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? description, string? pictureFileName)
     {
         var item = await _dbContext.CatalogProducts.FirstOrDefaultAsync(cp => cp.Id == id);
 
         if (item != null)
         {
             item.Name = name ?? item.Name;
-            item.Description = description ?? item.Description;
             item.Price = price ?? item.Price;
             item.AvailableStock = availableStock ?? item.AvailableStock;
             item.CatalogBrandId = catalogBrandId ?? item.CatalogBrandId;
             item.CatalogTypeId = catalogTypeId ?? item.CatalogTypeId;
+            item.Description = description ?? item.Description;
             item.PictureFileName = pictureFileName ?? item.PictureFileName;
 
             _dbContext.CatalogProducts.Update(item);
