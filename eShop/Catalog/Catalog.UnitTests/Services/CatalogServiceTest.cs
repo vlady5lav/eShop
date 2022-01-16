@@ -33,7 +33,7 @@ public class CatalogServiceTest
     }
 
     [Fact]
-    public async Task GetCatalogProductsAsync_Success()
+    public async Task GetProductsByPageAsync_Success()
     {
         // arrange
         var testPageIndex = 0;
@@ -82,7 +82,7 @@ public class CatalogServiceTest
     }
 
     [Fact]
-    public async Task GetCatalogProductsAsync_Failed()
+    public async Task GetProductsByPageAsync_Failed()
     {
         // arrange
         var testPageIndex = 1000;

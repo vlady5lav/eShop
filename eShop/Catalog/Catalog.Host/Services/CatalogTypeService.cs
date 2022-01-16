@@ -17,22 +17,22 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
         _catalogTypeRepository = catalogTypeRepository;
     }
 
-    public async Task<int?> CreateTypeAsync(string type)
+    public async Task<int?> AddAsync(string type)
     {
         return await ExecuteSafe(async () => await _catalogTypeRepository.AddAsync(type));
     }
 
-    public async Task<int?> DeleteTypeAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         return await ExecuteSafe(async () => await _catalogTypeRepository.RemoveAsync(id));
     }
 
-    public async Task<int?> DeleteTypeByTitleAsync(string type)
+    public async Task<int?> DeleteByTitleAsync(string type)
     {
         return await ExecuteSafe(async () => await _catalogTypeRepository.RemoveByTitleAsync(type));
     }
 
-    public async Task<int?> UpdateTypeAsync(int id, string type)
+    public async Task<int?> UpdateAsync(int id, string type)
     {
         return await ExecuteSafe(async () => await _catalogTypeRepository.UpdateAsync(id, type));
     }

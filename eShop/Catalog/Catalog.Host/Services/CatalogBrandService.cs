@@ -17,22 +17,22 @@ public class CatalogBrandService : BaseDataService<ApplicationDbContext>, ICatal
         _catalogBrandRepository = catalogBrandRepository;
     }
 
-    public async Task<int?> CreateBrandAsync(string brand)
+    public async Task<int?> AddAsync(string brand)
     {
         return await ExecuteSafe(async () => await _catalogBrandRepository.AddAsync(brand));
     }
 
-    public async Task<int?> DeleteBrandAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         return await ExecuteSafe(async () => await _catalogBrandRepository.RemoveAsync(id));
     }
 
-    public async Task<int?> DeleteBrandByTitleAsync(string brand)
+    public async Task<int?> DeleteByTitleAsync(string brand)
     {
         return await ExecuteSafe(async () => await _catalogBrandRepository.RemoveByTitleAsync(brand));
     }
 
-    public async Task<int?> UpdateBrandAsync(int id, string brand)
+    public async Task<int?> UpdateAsync(int id, string brand)
     {
         return await ExecuteSafe(async () => await _catalogBrandRepository.UpdateAsync(id, brand));
     }

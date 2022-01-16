@@ -22,9 +22,9 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateBrandResponse<int>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Create(CreateBrandRequest request)
+    public async Task<ActionResult> Add(CreateBrandRequest request)
     {
-        var result = await _catalogBrandService.CreateBrandAsync(request.Brand);
+        var result = await _catalogBrandService.AddAsync(request.Brand);
 
         if (result != null)
         {
@@ -41,7 +41,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Delete(int id)
     {
-        var result = await _catalogBrandService.DeleteBrandAsync(id);
+        var result = await _catalogBrandService.DeleteAsync(id);
 
         if (result != null)
         {
@@ -58,7 +58,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> DeleteByTitle(string brand)
     {
-        var result = await _catalogBrandService.DeleteBrandByTitleAsync(brand);
+        var result = await _catalogBrandService.DeleteByTitleAsync(brand);
 
         if (result != null)
         {
@@ -75,7 +75,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateBrandRequest request)
     {
-        var result = await _catalogBrandService.UpdateBrandAsync(request.Id, request.Brand);
+        var result = await _catalogBrandService.UpdateAsync(request.Id, request.Brand);
 
         if (result != null)
         {

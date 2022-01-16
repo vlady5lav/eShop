@@ -38,7 +38,8 @@ public class CatalogProductServiceTest
         // arrange
         var testResult = 1;
 
-        _catalogProductRepository.Setup(s => s.AddAsync(
+        _catalogProductRepository.Setup(
+            s => s.AddAsync(
             It.IsAny<string>(),
             It.IsAny<decimal>(),
             It.IsAny<int>(),
@@ -49,8 +50,7 @@ public class CatalogProductServiceTest
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogService
-            .CreateProductAsync(
+        var result = await _catalogService.AddAsync(
             _testItem.Name,
             _testItem.Price,
             _testItem.AvailableStock,
@@ -69,7 +69,8 @@ public class CatalogProductServiceTest
         // arrange
         int? testResult = null;
 
-        _catalogProductRepository.Setup(s => s.AddAsync(
+        _catalogProductRepository.Setup(
+            s => s.AddAsync(
             It.IsAny<string>(),
             It.IsAny<decimal>(),
             It.IsAny<int>(),
@@ -80,8 +81,7 @@ public class CatalogProductServiceTest
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogService
-            .CreateProductAsync(
+        var result = await _catalogService.AddAsync(
             _testItem.Name,
             _testItem.Price,
             _testItem.AvailableStock,

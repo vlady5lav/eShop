@@ -23,13 +23,13 @@ public abstract class BaseDataService<T>
             try
             {
                 var result = await action();
-                transaction.Commit();
+                await transaction.CommitAsync();
                 return result;
             }
             catch (Exception ex)
             {
-                transaction.Rollback();
-                _logger.LogError(ex, $"transaction is rollbacked");
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, $"transaction is rolled back");
                 return default(T1)!;
             }
         }

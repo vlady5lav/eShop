@@ -22,9 +22,9 @@ public class CatalogProductController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateProductResponse<int>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Create(CreateProductRequest request)
+    public async Task<ActionResult> Add(CreateProductRequest request)
     {
-        var result = await _catalogProductService.CreateProductAsync(request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
+        var result = await _catalogProductService.AddAsync(request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
 
         if (result != null)
         {
@@ -41,7 +41,7 @@ public class CatalogProductController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Delete(int id)
     {
-        var result = await _catalogProductService.DeleteProductAsync(id);
+        var result = await _catalogProductService.DeleteAsync(id);
 
         if (result != null)
         {
@@ -58,7 +58,7 @@ public class CatalogProductController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> Update(UpdateProductRequest request)
     {
-        var result = await _catalogProductService.UpdateProductAsync(request.Id, request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
+        var result = await _catalogProductService.UpdateAsync(request.Id, request.Name, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.Description, request.PictureFileName);
 
         if (result != null)
         {

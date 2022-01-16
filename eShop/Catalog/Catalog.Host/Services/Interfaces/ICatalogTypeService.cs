@@ -2,8 +2,8 @@
 
 public interface ICatalogTypeService
 {
-    Task<int?> CreateTypeAsync(string type);
-    Task<int?> DeleteTypeAsync(int id);
-    Task<int?> DeleteTypeByTitleAsync(string type);
-    Task<int?> UpdateTypeAsync(int id, string type);
+    Task<int?> AddAsync(string type);
+    Task<int?> DeleteAsync(int id);
+    Task<int?> DeleteByTitleAsync(string type);
+    Task<int?> UpdateAsync(int id, string type);
 }

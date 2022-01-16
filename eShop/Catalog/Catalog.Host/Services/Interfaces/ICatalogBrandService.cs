@@ -2,8 +2,8 @@
 
 public interface ICatalogBrandService
 {
-    Task<int?> CreateBrandAsync(string brand);
-    Task<int?> DeleteBrandAsync(int id);
-    Task<int?> DeleteBrandByTitleAsync(string brand);
-    Task<int?> UpdateBrandAsync(int id, string brand);
+    Task<int?> AddAsync(string brand);
+    Task<int?> DeleteAsync(int id);
+    Task<int?> DeleteByTitleAsync(string brand);
+    Task<int?> UpdateAsync(int id, string brand);
 }

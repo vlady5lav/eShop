@@ -17,17 +17,17 @@ public class CatalogProductService : BaseDataService<ApplicationDbContext>, ICat
         _catalogProductRepository = catalogProductRepository;
     }
 
-    public async Task<int?> CreateProductAsync(string name, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string? description, string? pictureFileName)
+    public async Task<int?> AddAsync(string name, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string? description, string? pictureFileName)
     {
         return await ExecuteSafe(async () => await _catalogProductRepository.AddAsync(name, price, availableStock, catalogBrandId, catalogTypeId, description, pictureFileName));
     }
 
-    public async Task<int?> DeleteProductAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         return await ExecuteSafe(async () => await _catalogProductRepository.RemoveAsync(id));
     }
 
-    public async Task<int?> UpdateProductAsync(int id, string? name, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? description, string? pictureFileName)
+    public async Task<int?> UpdateAsync(int id, string? name, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? description, string? pictureFileName)
     {
         return await ExecuteSafe(async () => await _catalogProductRepository.UpdateAsync(id, name, price, availableStock, catalogBrandId, catalogTypeId, description, pictureFileName));
     }
