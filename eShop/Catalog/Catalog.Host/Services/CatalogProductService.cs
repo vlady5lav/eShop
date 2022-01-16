@@ -24,7 +24,7 @@ public class CatalogProductService : BaseDataService<ApplicationDbContext>, ICat
 
     public async Task<int?> DeleteAsync(int id)
     {
-        return await ExecuteSafe(async () => await _catalogProductRepository.RemoveAsync(id));
+        return await ExecuteSafe(async () => await _catalogProductRepository.DeleteAsync(id));
     }
 
     public async Task<int?> UpdateAsync(int id, string? name, decimal? price, int? availableStock, int? catalogBrandId, int? catalogTypeId, string? description, string? pictureFileName)

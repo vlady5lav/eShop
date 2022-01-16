@@ -7,7 +7,6 @@ global using AutoMapper;
 global using Catalog.Host.Data;
 global using Catalog.Host.Data.Entities;
 global using Catalog.Host.Models.Dtos;
-global using Catalog.Host.Models.Responses;
 global using Catalog.Host.Repositories.Interfaces;
 global using Catalog.Host.Services;
 global using Catalog.Host.Services.Interfaces;

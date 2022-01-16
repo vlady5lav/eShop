@@ -17,7 +17,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         _logger = logger;
     }
 
-    public async Task<PaginatedItems<CatalogBrand>?> GetByPageAsync(int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogBrand>?> GetByPageAsync(int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogBrands
             .LongCountAsync();
@@ -70,7 +70,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         return item.Entity.Id;
     }
 
-    public async Task<int?> RemoveAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
 
@@ -88,7 +88,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         }
     }
 
-    public async Task<int?> RemoveByTitleAsync(string brand)
+    public async Task<int?> DeleteByTitleAsync(string brand)
     {
         var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Brand == brand);
 

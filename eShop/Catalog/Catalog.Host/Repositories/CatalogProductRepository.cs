@@ -17,7 +17,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         _logger = logger;
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByPageAsync(int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByPageAsync(int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogProducts
             .LongCountAsync();
@@ -54,7 +54,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return result;
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandIdAsync(int id, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandIdAsync(int id, int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogBrand)
@@ -73,7 +73,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandTitleAsync(string brand, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByBrandTitleAsync(string brand, int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogBrand)
@@ -92,7 +92,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeIdAsync(int id, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeIdAsync(int id, int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogType)
@@ -111,7 +111,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return new PaginatedItems<CatalogProduct>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeTitleAsync(string type, int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogProduct>?> GetByTypeTitleAsync(string type, int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogProducts
             .Include(cp => cp.CatalogType)
@@ -150,7 +150,7 @@ public class CatalogProductRepository : ICatalogProductRepository
         return item.Entity.Id;
     }
 
-    public async Task<int?> RemoveAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         var item = await _dbContext.CatalogProducts.FirstOrDefaultAsync(cp => cp.Id == id);
 

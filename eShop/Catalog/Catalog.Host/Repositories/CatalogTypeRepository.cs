@@ -17,7 +17,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         _logger = logger;
     }
 
-    public async Task<PaginatedItems<CatalogType>?> GetByPageAsync(int pageIndex, int pageSize)
+    public async Task<PaginatedItems<CatalogType>?> GetByPageAsync(int pageSize, int pageIndex)
     {
         var totalItems = await _dbContext.CatalogTypes
             .LongCountAsync();
@@ -70,7 +70,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         return item.Entity.Id;
     }
 
-    public async Task<int?> RemoveAsync(int id)
+    public async Task<int?> DeleteAsync(int id)
     {
         var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
 
@@ -88,7 +88,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         }
     }
 
-    public async Task<int?> RemoveByTitleAsync(string type)
+    public async Task<int?> DeleteByTitleAsync(string type)
     {
         var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Type == type);
 
