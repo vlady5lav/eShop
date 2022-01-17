@@ -250,19 +250,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 1;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogBrand>()
-        {
-            Data = new List<CatalogBrand>()
-            {
-                new CatalogBrand()
-                {
-                    Id = 0,
-                    Brand = "Brand",
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogBrandSuccess = new CatalogBrand()
         {
             Id = 0,
@@ -275,13 +262,22 @@ public class CatalogServiceTest
             Brand = "Brand",
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogBrand>()
+        {
+            Data = new List<CatalogBrand>()
+            {
+                catalogBrandSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogBrandRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageSize),
             It.Is<int>(i => i == testPageIndex)))
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogBrandDto>(
-            It.Is<CatalogBrand?>(i => i!.Id.Equals(catalogBrandDtoSuccess.Id) && i!.Brand.Equals(catalogBrandDtoSuccess.Brand)))).Returns(catalogBrandDtoSuccess);
+            It.Is<CatalogBrand?>(i => i!.Equals(catalogBrandSuccess)))).Returns(catalogBrandDtoSuccess);
 
         // act
         var result = await _catalogService.GetBrandsByPageAsync(testPageSize, testPageIndex);
@@ -321,19 +317,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
-        {
-            Data = new List<CatalogProduct>()
-            {
-                new CatalogProduct()
-                {
-                    Id = 0,
-                    Name = "Product",
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogProductSuccess = new CatalogProduct()
         {
             Id = 0,
@@ -346,13 +329,22 @@ public class CatalogServiceTest
             Name = "Product",
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
+        {
+            Data = new List<CatalogProduct>()
+            {
+                catalogProductSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogProductRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageSize),
             It.Is<int>(i => i == testPageIndex)))
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogProductDto>(
-            It.Is<CatalogProduct?>(i => i!.Id.Equals(catalogProductDtoSuccess.Id) && i!.Name.Equals(catalogProductDtoSuccess.Name)))).Returns(catalogProductDtoSuccess);
+            It.Is<CatalogProduct?>(i => i!.Equals(catalogProductSuccess)))).Returns(catalogProductDtoSuccess);
 
         // act
         var result = await _catalogService.GetProductsByPageAsync(testPageSize, testPageIndex);
@@ -392,19 +384,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogType>()
-        {
-            Data = new List<CatalogType>()
-            {
-                new CatalogType()
-                {
-                    Id = 0,
-                    Type = "Type",
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogTypeSuccess = new CatalogType()
         {
             Id = 0,
@@ -417,13 +396,22 @@ public class CatalogServiceTest
             Type = "Type",
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogType>()
+        {
+            Data = new List<CatalogType>()
+            {
+                catalogTypeSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogTypeRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageSize),
             It.Is<int>(i => i == testPageIndex)))
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogTypeDto>(
-            It.Is<CatalogType?>(i => i!.Id.Equals(catalogTypeDtoSuccess.Id) && i!.Type.Equals(catalogTypeDtoSuccess.Type)))).Returns(catalogTypeDtoSuccess);
+            It.Is<CatalogType?>(i => i!.Equals(catalogTypeSuccess)))).Returns(catalogTypeDtoSuccess);
 
         // act
         var result = await _catalogService.GetTypesByPageAsync(testPageSize, testPageIndex);
@@ -464,20 +452,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
-        {
-            Data = new List<CatalogProduct>()
-            {
-                new CatalogProduct()
-                {
-                    Id = 1,
-                    Name = "Name",
-                    CatalogBrandId = 1,
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogProductSuccess = new CatalogProduct()
         {
             Id = 1,
@@ -492,6 +466,15 @@ public class CatalogServiceTest
             CatalogBrand = new CatalogBrandDto { Id = 1, Brand = "Brand" },
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
+        {
+            Data = new List<CatalogProduct>()
+            {
+                catalogProductSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogProductRepository.Setup(s => s.GetByBrandIdAsync(
             It.Is<int>(i => i == testId),
             It.Is<int>(i => i == testPageSize),
@@ -499,7 +482,7 @@ public class CatalogServiceTest
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogProductDto>(
-            It.Is<CatalogProduct?>(i => i!.CatalogBrandId.Equals(catalogProductDtoSuccess.CatalogBrand.Id) && i!.Name.Equals(catalogProductDtoSuccess.Name)))).Returns(catalogProductDtoSuccess);
+            It.Is<CatalogProduct?>(i => i!.Equals(catalogProductSuccess)))).Returns(catalogProductDtoSuccess);
 
         // act
         var result = await _catalogService.GetProductsByBrandIdAsync(testId, testPageSize, testPageIndex);
@@ -542,20 +525,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
-        {
-            Data = new List<CatalogProduct>()
-            {
-                new CatalogProduct()
-                {
-                    Id = 1,
-                    Name = "Name",
-                    CatalogBrand = new CatalogBrand() { Id = 2, Brand = "Brand" },
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogProductSuccess = new CatalogProduct()
         {
             Id = 1,
@@ -570,6 +539,15 @@ public class CatalogServiceTest
             CatalogBrand = new CatalogBrandDto { Id = 2, Brand = "Brand" },
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
+        {
+            Data = new List<CatalogProduct>()
+            {
+                catalogProductSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogProductRepository.Setup(s => s.GetByBrandTitleAsync(
             It.Is<string>(i => i == testTitle),
             It.Is<int>(i => i == testPageSize),
@@ -577,7 +555,7 @@ public class CatalogServiceTest
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogProductDto>(
-            It.Is<CatalogProduct?>(i => i!.CatalogBrand.Brand.Equals(catalogProductDtoSuccess.CatalogBrand.Brand) && i!.CatalogBrand.Id.Equals(catalogProductDtoSuccess.CatalogBrand.Id)))).Returns(catalogProductDtoSuccess);
+            It.Is<CatalogProduct?>(i => i!.Equals(catalogProductSuccess)))).Returns(catalogProductDtoSuccess);
 
         // act
         var result = await _catalogService.GetProductsByBrandTitleAsync(testTitle, testPageSize, testPageIndex);
@@ -620,20 +598,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
-        {
-            Data = new List<CatalogProduct>()
-            {
-                new CatalogProduct()
-                {
-                    Id = 1,
-                    Name = "Name",
-                    CatalogTypeId = 1,
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogProductSuccess = new CatalogProduct()
         {
             Id = 1,
@@ -648,6 +612,15 @@ public class CatalogServiceTest
             CatalogType = new CatalogTypeDto { Id = 1, Type = "Type" },
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
+        {
+            Data = new List<CatalogProduct>()
+            {
+                catalogProductSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogProductRepository.Setup(s => s.GetByTypeIdAsync(
             It.Is<int>(i => i == testId),
             It.Is<int>(i => i == testPageSize),
@@ -655,7 +628,7 @@ public class CatalogServiceTest
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogProductDto>(
-            It.Is<CatalogProduct?>(i => i!.CatalogTypeId.Equals(catalogProductDtoSuccess.CatalogType.Id) && i!.Name.Equals(catalogProductDtoSuccess.Name)))).Returns(catalogProductDtoSuccess);
+            It.Is<CatalogProduct?>(i => i!.Equals(catalogProductSuccess)))).Returns(catalogProductDtoSuccess);
 
         // act
         var result = await _catalogService.GetProductsByTypeIdAsync(testId, testPageSize, testPageIndex);
@@ -698,20 +671,6 @@ public class CatalogServiceTest
         var testPageSize = 4;
         var testTotalCount = 12;
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
-        {
-            Data = new List<CatalogProduct>()
-            {
-                new CatalogProduct()
-                {
-                    Id = 1,
-                    Name = "Name",
-                    CatalogType = new CatalogType() { Id = 2, Type = "Type" },
-                },
-            },
-            TotalCount = testTotalCount,
-        };
-
         var catalogProductSuccess = new CatalogProduct()
         {
             Id = 1,
@@ -726,6 +685,15 @@ public class CatalogServiceTest
             CatalogType = new CatalogTypeDto { Id = 2, Type = "Type" },
         };
 
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogProduct>()
+        {
+            Data = new List<CatalogProduct>()
+            {
+                catalogProductSuccess,
+            },
+            TotalCount = testTotalCount,
+        };
+
         _catalogProductRepository.Setup(s => s.GetByTypeTitleAsync(
             It.Is<string>(i => i == testTitle),
             It.Is<int>(i => i == testPageSize),
@@ -733,7 +701,7 @@ public class CatalogServiceTest
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogProductDto>(
-            It.Is<CatalogProduct?>(i => i!.CatalogType.Type.Equals(catalogProductDtoSuccess.CatalogType.Type) && i!.CatalogType.Id.Equals(catalogProductDtoSuccess.CatalogType.Id)))).Returns(catalogProductDtoSuccess);
+            It.Is<CatalogProduct?>(i => i!.Equals(catalogProductSuccess)))).Returns(catalogProductDtoSuccess);
 
         // act
         var result = await _catalogService.GetProductsByTypeTitleAsync(testTitle, testPageSize, testPageIndex);
