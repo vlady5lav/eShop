@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Catalog.Host.Data;
 
@@ -20,7 +20,9 @@ public class ApplicationContextFactory : IDesignTimeDbContextFactory<Application
 
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        dbContextOptionsBuilder.UseNpgsql(configuration["ConnectionString"], s => s.CommandTimeout(30));
+        dbContextOptionsBuilder.UseNpgsql(
+            configuration["ConnectionString"],
+            s => s.CommandTimeout(30));
 
         return new ApplicationDbContext(dbContextOptionsBuilder.Options);
     }

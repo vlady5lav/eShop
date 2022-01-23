@@ -1,4 +1,4 @@
-﻿namespace Catalog.Host.Models.Requests;
+namespace Catalog.Host.Models.Requests;
 
 public class CreateBrandRequest
 {

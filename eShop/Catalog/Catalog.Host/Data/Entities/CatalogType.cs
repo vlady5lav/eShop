@@ -1,4 +1,4 @@
-﻿namespace Catalog.Host.Data.Entities;
+namespace Catalog.Host.Data.Entities;
 
 public class CatalogType
 {

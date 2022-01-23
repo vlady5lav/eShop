@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Models.Requests;
+using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Responses;
 using Catalog.Host.Services.Interfaces;
 
@@ -8,8 +8,9 @@ namespace Catalog.Host.Controllers;
 [Route(ComponentDefaults.DefaultRoute)]
 public class CatalogBrandController : ControllerBase
 {
-    private readonly ILogger<CatalogBrandController> _logger;
     private readonly ICatalogBrandService _catalogBrandService;
+
+    private readonly ILogger<CatalogBrandController> _logger;
 
     public CatalogBrandController(
         ILogger<CatalogBrandController> logger,
@@ -22,7 +23,7 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateBrandResponse<int>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Add(CreateBrandRequest request)
+    public async Task<IActionResult> Add(CreateBrandRequest request)
     {
         var result = await _catalogBrandService.AddAsync(request.Brand);
 
@@ -39,7 +40,7 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var result = await _catalogBrandService.DeleteAsync(id);
 
@@ -56,7 +57,7 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> DeleteByTitle(string brand)
+    public async Task<IActionResult> DeleteByTitle(string brand)
     {
         var result = await _catalogBrandService.DeleteByTitleAsync(brand);
 
@@ -73,7 +74,7 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Update(UpdateBrandRequest request)
+    public async Task<IActionResult> Update(UpdateBrandRequest request)
     {
         var result = await _catalogBrandService.UpdateAsync(request.Id, request.Brand);
 

@@ -1,4 +1,4 @@
-﻿# https://hub.docker.com/_/microsoft-dotnet
+# https://hub.docker.com/_/microsoft-dotnet
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 COPY . /src
 WORKDIR /src/Catalog/Catalog.Host
@@ -8,5 +8,4 @@ RUN dotnet publish -c Release -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app ./
-EXPOSE 80
 ENTRYPOINT ["dotnet", "Catalog.Host.dll"]

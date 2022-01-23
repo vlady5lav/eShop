@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Data;
+using Catalog.Host.Data;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 
@@ -19,21 +19,21 @@ public class CatalogBrandService : BaseDataService<ApplicationDbContext>, ICatal
 
     public async Task<int?> AddAsync(string brand)
     {
-        return await ExecuteSafe(async () => await _catalogBrandRepository.AddAsync(brand));
+        return await ExecuteSafeAsync(async () => await _catalogBrandRepository.AddAsync(brand));
     }
 
     public async Task<int?> DeleteAsync(int id)
     {
-        return await ExecuteSafe(async () => await _catalogBrandRepository.DeleteAsync(id));
+        return await ExecuteSafeAsync(async () => await _catalogBrandRepository.DeleteAsync(id));
     }
 
     public async Task<int?> DeleteByTitleAsync(string brand)
     {
-        return await ExecuteSafe(async () => await _catalogBrandRepository.DeleteByTitleAsync(brand));
+        return await ExecuteSafeAsync(async () => await _catalogBrandRepository.DeleteByTitleAsync(brand));
     }
 
     public async Task<int?> UpdateAsync(int id, string brand)
     {
-        return await ExecuteSafe(async () => await _catalogBrandRepository.UpdateAsync(id, brand));
+        return await ExecuteSafeAsync(async () => await _catalogBrandRepository.UpdateAsync(id, brand));
     }
 }

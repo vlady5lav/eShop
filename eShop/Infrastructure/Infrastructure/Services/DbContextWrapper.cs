@@ -1,4 +1,4 @@
-﻿using Infrastructure.Services.Interfaces;
+using Infrastructure.Services.Interfaces;
 
 namespace Infrastructure.Services;
 
@@ -13,8 +13,8 @@ public class DbContextWrapper<T> : IDbContextWrapper<T>
 
     public T DbContext { get; }
 
-    public IDbContextTransaction BeginTransaction()
+    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
     {
-        return DbContext.Database.BeginTransaction();
+        return DbContext.Database.BeginTransactionAsync(cancellationToken);
     }
 }

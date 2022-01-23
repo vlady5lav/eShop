@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities;
 
 namespace Catalog.Host.Data.EntityConfigurations;
 
@@ -9,13 +9,13 @@ public class CatalogTypeEntityTypeConfiguration
     {
         builder.ToTable("CatalogType");
 
-        builder.HasKey(ct => ct.Id);
+        builder.HasKey(ci => ci.Id);
 
-        builder.Property(ct => ct.Id)
+        builder.Property(ci => ci.Id)
             .UseHiLo("catalog_type_hilo")
             .IsRequired();
 
-        builder.Property(ct => ct.Type)
+        builder.Property(cb => cb.Type)
             .IsRequired()
             .HasMaxLength(100);
     }

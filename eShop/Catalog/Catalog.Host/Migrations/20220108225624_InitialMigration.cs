@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -6,6 +6,27 @@ namespace Catalog.Host.Migrations
 {
     public partial class InitialMigration : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Catalog");
+
+            migrationBuilder.DropTable(
+                name: "CatalogBrand");
+
+            migrationBuilder.DropTable(
+                name: "CatalogType");
+
+            migrationBuilder.DropSequence(
+                name: "catalog_brand_hilo");
+
+            migrationBuilder.DropSequence(
+                name: "catalog_hilo");
+
+            migrationBuilder.DropSequence(
+                name: "catalog_type_hilo");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
@@ -13,7 +34,7 @@ namespace Catalog.Host.Migrations
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "catalog_product_hilo",
+                name: "catalog_hilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
@@ -45,12 +66,12 @@ namespace Catalog.Host.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CatalogProduct",
+                name: "Catalog",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     PictureFileName = table.Column<string>(type: "text", nullable: true),
                     CatalogTypeId = table.Column<int>(type: "integer", nullable: false),
@@ -83,27 +104,6 @@ namespace Catalog.Host.Migrations
                 name: "IX_Catalog_CatalogTypeId",
                 table: "Catalog",
                 column: "CatalogTypeId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "CatalogProduct");
-
-            migrationBuilder.DropTable(
-                name: "CatalogBrand");
-
-            migrationBuilder.DropTable(
-                name: "CatalogType");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_brand_hilo");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_product_hilo");
-
-            migrationBuilder.DropSequence(
-                name: "catalog_type_hilo");
         }
     }
 }

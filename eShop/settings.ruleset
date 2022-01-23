@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="My Rules" Description="Description for My Rules" ToolsVersion="16.0">
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA0001" Action="Info" />
@@ -114,7 +114,7 @@
     <Rule Id="SA1409" Action="None" />
     <Rule Id="SA1410" Action="Warning" />
     <Rule Id="SA1411" Action="Warning" />
-    <Rule Id="SA1412" Action="Warning" />
+    <Rule Id="SA1412" Action="Info" />
     <Rule Id="SA1413" Action="Info" />
     <Rule Id="SA1500" Action="Warning" />
     <Rule Id="SA1501" Action="Warning" />

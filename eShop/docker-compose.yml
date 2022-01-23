@@ -1,49 +1,97 @@
-﻿version: "3.9"
+version: "3.9"
 
 services:
-    nginx:
-        container_name: lde.nginx
-        image: nginx
-        command: ["nginx", '-g', "daemon off;"]
-        ports:
-            - "80:80"
-        environment:
-            - NGINX_HOST=http://localhost
-            - NGINX_PORT=80
 
-    postgres:
-        image: postgres
-        container_name: lde.postgres
-        environment:
-            POSTGRES_PASSWORD: postgres
-        depends_on:
-            - nginx
-        ports:
-            - "5433:5432"
+  nginx:
+    image: nginx
+    container_name: lde.nginx
+    volumes:
+      - ./Proxy/gateway/nginx/conf.d:/etc/nginx/conf.d
+      - ./Proxy/assets:/var/www/assets
+    ports:
+      - "80:80"
 
-    pgadmin4:
-        image: dpage/pgadmin4
-        container_name: lde.pgadmin4
-        environment:
-            PGADMIN_DEFAULT_EMAIL: user@domain.com
-            PGADMIN_DEFAULT_PASSWORD: postgres
-        depends_on:
-            - nginx
-            - postgres
-        ports:
-            - "8001:80"
+  postgres:
+    image: postgres
+    container_name: lde.postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    depends_on:
+      - nginx
+    ports:
+      - "5433:5432"
 
-    catalog.api:
-        container_name: lde.catalog.api
-        build:
-            context: .
-            dockerfile: Catalog/Catalog.Host/Dockerfile
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=http://+:5000
-        depends_on:
-            - nginx
-            - postgres
-            - pgadmin4
-        ports:
-            - "5000:5000"
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: lde.pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    depends_on:
+      - nginx
+      - postgres
+    ports:
+      - "8001:80"
+
+  catalog.api:
+    container_name: lde.catalog.api
+    build:
+      context: .
+      dockerfile: Catalog/Catalog.Host/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Development
+       - ASPNETCORE_URLS=http://+:5000
+       - ConnectionString=server=www.alevelwebsite.com;port=5433;database=catalog;uid=postgres;password=postgres;
+       - Authorization__Authority=http://www.alevelwebsite.com:5002
+       - PathBase=http://www.alevelwebsite.com:5000
+    depends_on:
+      - nginx
+      - postgres
+      - pgadmin4
+    ports:
+      - "5000:5000"
+
+  identityserver:
+    container_name: lde.identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/IdentityServer/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002
+      - MvcUrl=http://www.alevelwebsite.com
+      - CatalogApi=http://www.alevelwebsite.com:5000
+    depends_on:
+      - nginx
+      - postgres
+      - pgadmin4
+      - catalog.api
+    ports:
+      - "5002:5002"
+
+  web.mvc:
+    container_name: lde.web.mvc
+    build:
+      context: .
+      dockerfile: Web/MVC/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - CatalogUrl=http://www.alevelwebsite.com:5000/api/v1/catalogbff
+      - Authorization__Authority=http://www.alevelwebsite.com:5002
+      - IdentityUrl=http://www.alevelwebsite.com:5002
+      - CallBackUrl=http://www.alevelwebsite.com/
+      - RedirectUri=http://www.alevelwebsite.com/signin-oidc
+    depends_on:
+      - nginx
+      - postgres
+      - pgadmin4
+      - catalog.api
+      - identityserver
+    ports:
+      - "5001:5001"
+
+networks:
+
+  dockernet:
+    external: true

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.UnitTests.Mocks;
+namespace Infrastructure.UnitTests.Mocks;
 
 public class MockService : BaseDataService<MockDbContext>
 {
@@ -11,11 +11,11 @@ public class MockService : BaseDataService<MockDbContext>
 
     public async Task RunWithException()
     {
-        await ExecuteSafe<bool>(() => throw new Exception());
+        await ExecuteSafeAsync<bool>(() => throw new Exception());
     }
 
     public async Task RunWithoutException()
     {
-        await ExecuteSafe<bool>(async () => await Task.FromResult(true));
+        await ExecuteSafeAsync<bool>(() => Task.FromResult(true));
     }
 }

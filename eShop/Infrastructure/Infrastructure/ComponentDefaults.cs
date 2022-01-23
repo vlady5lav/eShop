@@ -1,4 +1,4 @@
-﻿namespace Infrastructure;
+namespace Infrastructure;
 
 public static class ComponentDefaults
 {

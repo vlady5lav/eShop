@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities;
 
 namespace Catalog.Host.Data.EntityConfigurations;
 
@@ -9,9 +9,9 @@ public class CatalogBrandEntityTypeConfiguration
     {
         builder.ToTable("CatalogBrand");
 
-        builder.HasKey(cb => cb.Id);
+        builder.HasKey(ci => ci.Id);
 
-        builder.Property(cb => cb.Id)
+        builder.Property(ci => ci.Id)
             .UseHiLo("catalog_brand_hilo")
             .IsRequired();
 

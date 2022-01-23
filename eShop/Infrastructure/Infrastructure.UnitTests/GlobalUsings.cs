@@ -1,4 +1,4 @@
-﻿global using System;
+global using System;
 global using System.Threading.Tasks;
 
 global using Infrastructure.Services;

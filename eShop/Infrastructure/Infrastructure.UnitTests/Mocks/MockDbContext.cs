@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.UnitTests.Mocks;
+namespace Infrastructure.UnitTests.Mocks;
 
 public class MockDbContext : DbContext
 {

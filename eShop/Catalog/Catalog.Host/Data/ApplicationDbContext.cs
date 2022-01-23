@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities;
 using Catalog.Host.Data.EntityConfigurations;
 
 namespace Catalog.Host.Data;
@@ -10,9 +10,9 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<CatalogProduct> CatalogProducts { get; set; } = null!;
-
     public DbSet<CatalogBrand> CatalogBrands { get; set; } = null!;
+
+    public DbSet<CatalogItem> CatalogItems { get; set; } = null!;
 
     public DbSet<CatalogType> CatalogTypes { get; set; } = null!;
 
@@ -20,11 +20,6 @@ public class ApplicationDbContext : DbContext
     {
         builder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
         builder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
-        builder.ApplyConfiguration(new CatalogProductEntityTypeConfiguration());
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Warning);
+        builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
     }
 }

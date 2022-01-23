@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Models.Requests;
+using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Responses;
 using Catalog.Host.Services.Interfaces;
 
@@ -8,8 +8,9 @@ namespace Catalog.Host.Controllers;
 [Route(ComponentDefaults.DefaultRoute)]
 public class CatalogTypeController : ControllerBase
 {
-    private readonly ILogger<CatalogTypeController> _logger;
     private readonly ICatalogTypeService _catalogTypeService;
+
+    private readonly ILogger<CatalogTypeController> _logger;
 
     public CatalogTypeController(
         ILogger<CatalogTypeController> logger,
@@ -22,7 +23,7 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateTypeResponse<int>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Add(CreateTypeRequest request)
+    public async Task<IActionResult> Add(CreateTypeRequest request)
     {
         var result = await _catalogTypeService.AddAsync(request.Type);
 
@@ -39,7 +40,7 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var result = await _catalogTypeService.DeleteAsync(id);
 
@@ -56,7 +57,7 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> DeleteByTitle(string type)
+    public async Task<IActionResult> DeleteByTitle(string type)
     {
         var result = await _catalogTypeService.DeleteByTitleAsync(type);
 
@@ -73,7 +74,7 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> Update(UpdateTypeRequest request)
+    public async Task<IActionResult> Update(UpdateTypeRequest request)
     {
         var result = await _catalogTypeService.UpdateAsync(request.Id, request.Type);
 

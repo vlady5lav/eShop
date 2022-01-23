@@ -1,4 +1,4 @@
-﻿using Catalog.Host.Data;
+using Catalog.Host.Data;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 
@@ -19,21 +19,21 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
 
     public async Task<int?> AddAsync(string type)
     {
-        return await ExecuteSafe(async () => await _catalogTypeRepository.AddAsync(type));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.AddAsync(type));
     }
 
     public async Task<int?> DeleteAsync(int id)
     {
-        return await ExecuteSafe(async () => await _catalogTypeRepository.DeleteAsync(id));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.DeleteAsync(id));
     }
 
     public async Task<int?> DeleteByTitleAsync(string type)
     {
-        return await ExecuteSafe(async () => await _catalogTypeRepository.DeleteByTitleAsync(type));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.DeleteByTitleAsync(type));
     }
 
     public async Task<int?> UpdateAsync(int id, string type)
     {
-        return await ExecuteSafe(async () => await _catalogTypeRepository.UpdateAsync(id, type));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.UpdateAsync(id, type));
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Catalog.Host.Models.Dtos;
+namespace Catalog.Host.Models.Dtos;
 
 public class CatalogTypeDto
 {
