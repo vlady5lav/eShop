@@ -5,6 +5,8 @@ using Catalog.Host.Services.Interfaces;
 namespace Catalog.Host.Controllers;
 
 [ApiController]
+[Authorize(Policy = AuthPolicy.AllowClientPolicy)]
+[Scope("catalog.catalogtype")]
 [Route(ComponentDefaults.DefaultRoute)]
 public class CatalogTypeController : ControllerBase
 {

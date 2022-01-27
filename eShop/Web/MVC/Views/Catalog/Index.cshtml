@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "Catalog";
 }
+
 <section class="esh-catalog-hero">
     <div class="container">
     </div>
 </section>
-
 <section class="esh-catalog-filters">
     <div class="container">
         <form asp-action="Index" asp-controller="Catalog" method="post">
@@ -32,7 +32,6 @@
             </div>
         }
     </div>
-
     @if (Model.CatalogItems.Count() > 0)
     {
         <partial name="_pagination" for="PaginationInfo" />

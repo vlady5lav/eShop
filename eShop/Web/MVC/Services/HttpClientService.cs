@@ -1,8 +1,4 @@
-using IdentityModel.Client;
-
 using MVC.Services.Interfaces;
-
-using Newtonsoft.Json;
 
 namespace MVC.Services;
 

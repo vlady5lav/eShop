@@ -14,8 +14,8 @@
         <link rel="stylesheet" href="~/css/catalog/catalog.component.css" />
         <link rel="stylesheet" href="~/css/override.css" type="text/css" />
         <link rel="stylesheet" href="~/css/site.min.css" type="text/css" />
-
     </environment>
+
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
@@ -28,7 +28,6 @@
     <header class="esh-app-header">
         <div class="container">
             <article class="row">
-
                 <section class="col-lg-7 col-md-6 col-12">
                     <a class="navbar-brand" routerLink="catalog">
                         <a asp-area="" asp-controller="Catalog" asp-action="Index">
@@ -36,7 +35,6 @@
                         </a>
                     </a>
                 </section>
-
                 @await Html.PartialAsync("_LoginPartial")
             </article>
         </div>
@@ -47,14 +45,11 @@
     <footer class="esh-app-footer">
         <div class="container">
             <article class="row">
-
                 <section class="col-sm-6">
                     <img class="esh-app-footer-brand" src="~/images/brand_dark.png" />
                 </section>
-
                 <section class="col-sm-6">
                 </section>
-
             </article>
         </div>
     </footer>
@@ -64,6 +59,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
+
     <environment names="Staging,Production">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
                 asp-fallback-src="~/lib/jquery/jquery.min.js"

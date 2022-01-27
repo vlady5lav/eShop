@@ -1,8 +1,5 @@
 using Infrastructure.Configuration;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Infrastructure.Extensions;
 
 public static class ConfigurationExtensions

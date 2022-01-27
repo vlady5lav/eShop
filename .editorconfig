@@ -4,15 +4,15 @@ root=true
 # All files
 [*]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
 indent_size=4
 insert_final_newline=true
 tab_width=4
 trim_trailing_whitespace=true
 
-# Configuration files
-[*.{config,config.*,manifest,manifest.*,nuspec,nuspec.*,props,props.*,resx,resx.*,ruleset,ruleset.*,targets,targets.*,vsixmanifest,vsixmanifest.*,vsct,vsct.*,xml,xml.*}]
+# ASP.NET Web files
+[*.{asp,asp.*,apsx,aspx.*,cshtm,cshtm.*,cshtml,cshtml.*}]
 charset=utf-8
 end_of_line=crlf
 indent_style=space
@@ -21,20 +21,20 @@ insert_final_newline=true
 tab_width=2
 trim_trailing_whitespace=true
 
-# Ignore & Attributes files
-[.{dockerignore,dockerignore.*,gitattributes,gitattributes.*,gitignore,gitignore.*}]
+# Configuration files
+[*.{config,config.*,manifest,manifest.*,nuspec,nuspec.*,props,props.*,resx,resx.*,ruleset,ruleset.*,targets,targets.*,vsixmanifest,vsixmanifest.*,vsct,vsct.*}]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
-indent_size=4
+indent_size=2
 insert_final_newline=true
-tab_width=4
+tab_width=2
 trim_trailing_whitespace=true
 
 # JSON files
 [*.{json,json.*,json5,json5.*,webmanifest,webmanifest.*}]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
 indent_size=2
 insert_final_newline=true
@@ -54,15 +54,25 @@ trim_trailing_whitespace=true
 # Markdown files
 [*.{md,mdx}]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_size=4
 indent_style=tab
 insert_final_newline=true
 tab_width=4
-trim_trailing_whitespace=false
+trim_trailing_whitespace=true
+
+# SVG files
+[*.svg]
+charset=utf-8
+end_of_line=lf
+indent_style=space
+indent_size=2
+insert_final_newline=true
+tab_width=2
+trim_trailing_whitespace=true
 
 # Visual Studio Project files
-[*.{csproj,csproj.*,proj,proj.*,projitems,projitems.*,vbproj,vbproj.*,vcxproj,vcxproj.*,vcxproj.filters,shproj,shproj.*}]
+[*.{csproj,csproj.*,proj,proj.*,projitems,projitems.*,shproj,shproj.*,vbproj,vbproj.*,vcxproj,vcxproj.*,vcxproj.filters}]
 charset=utf-8
 end_of_line=crlf
 indent_style=space
@@ -82,9 +92,9 @@ tab_width=4
 trim_trailing_whitespace=true
 
 # Web files
-[*.{cjs,cshtm,cshtml,css,cts,ctsx,htm,html,js,jsm,jsx,less,mjs,mts,mtsx,pcss,sass,scss,svg,ts,tsx,vue}]
+[*.{cjs,cjsx,css,cssx,cts,ctsx,htm,html,js,jsm,jsx,less,mjs,mjsx,mts,mtsx,pcss,sass,scss,ts,tsx,vue,xhtm,xhtml}]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
 indent_size=2
 insert_final_newline=true
@@ -101,10 +111,20 @@ insert_final_newline=true
 tab_width=4
 trim_trailing_whitespace=true
 
+# XAML files
+[*.{xml,xml.*,xaml,xaml.*}]
+charset=utf-8
+end_of_line=lf
+indent_style=space
+indent_size=2
+insert_final_newline=true
+tab_width=2
+trim_trailing_whitespace=true
+
 # YAML files
 [*.{yml,yml.*,yaml,yaml.*}]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
 indent_size=2
 insert_final_newline=true
@@ -114,7 +134,7 @@ trim_trailing_whitespace=true
 # Dockerfiles
 [Dockerfile]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_style=space
 indent_size=4
 insert_final_newline=true
@@ -124,9 +144,19 @@ trim_trailing_whitespace=true
 # Makefiles
 [Makefile]
 charset=utf-8
-end_of_line=crlf
+end_of_line=lf
 indent_size=4
 indent_style=tab
+insert_final_newline=true
+tab_width=4
+trim_trailing_whitespace=true
+
+# .gitattributes, .editorconfig, .*ignore files
+[.{dockerignore,dockerignore.*,editorconfig,editorconfig.*,gitattributes,gitattributes.*,gitignore,gitignore.*}]
+charset=utf-8
+end_of_line=lf
+indent_style=space
+indent_size=4
 insert_final_newline=true
 tab_width=4
 trim_trailing_whitespace=true
@@ -145,7 +175,7 @@ indent_style=space
 tab_width=4
 
 # New line preferences
-end_of_line=crlf
+end_of_line=lf
 insert_final_newline=true
 trim_trailing_whitespace=true
 

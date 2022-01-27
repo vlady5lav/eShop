@@ -1,35 +1,36 @@
 @import '../../../variables';
 
 .esh-pager {
-  &-wrapper {
-    padding-top: 1rem;
-    text-align: center;
-  }
 
-  &-item {
-    $margin: 5vw;
-    margin: 0 $margin;
-
-    &.is-disabled {
-      opacity: 0;
-      pointer-events: none;
+    &-wrapper {
+        padding-top: 1rem;
+        text-align: center;
     }
 
-    &--navigable {
-      cursor: pointer;
-      display: inline-block;
+    &-item {
+        $margin: 5vw;
+        margin: 0 $margin;
 
-      &:hover {
-        color: $color-secondary;
-      }
-    }
+        &.is-disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-    @media screen and (max-width: $media-screen-l) {
-      font-size: $font-size-s;
-    }
+        &--navigable {
+            cursor: pointer;
+            display: inline-block;
 
-    @media screen and (max-width: $media-screen-m) {
-      margin: 0 $margin / 2;
+            &:hover {
+                color: $color-secondary;
+            }
+        }
+
+        @media screen and (max-width: $media-screen-l) {
+            font-size: $font-size-s;
+        }
+
+        @media screen and (max-width: $media-screen-m) {
+            margin: 0 $margin / 2;
+        }
     }
-  }
 }

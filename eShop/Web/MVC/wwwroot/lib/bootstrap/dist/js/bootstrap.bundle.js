@@ -5,10 +5,9 @@
   */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-      (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory());
-}(this, (function () {
-  'use strict';
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory());
+}(this, (function () { 'use strict';
 
   /**
    * --------------------------------------------------------------------------
@@ -33,6 +32,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   const getUID = prefix => {
     do {
       prefix += Math.floor(Math.random() * MAX_UID);
@@ -46,7 +46,6 @@
 
     if (!selector || selector === '#') {
       let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
-
       // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
       // `document.querySelector` will rightfully complain it is invalid.
       // See https://github.com/twbs/bootstrap/issues/32273
@@ -54,6 +53,7 @@
       if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
         return null;
       } // Just in case some CMS puts out a full URL with the anchor appended
+
 
       if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
         hrefAttr = `#${hrefAttr.split('#')[1]}`;
@@ -85,6 +85,7 @@
       return 0;
     } // Get transition-duration of the element
 
+
     let {
       transitionDuration,
       transitionDelay
@@ -95,6 +96,7 @@
     if (!floatTransitionDuration && !floatTransitionDelay) {
       return 0;
     } // If multiple durations are defined, take the first
+
 
     transitionDuration = transitionDuration.split(',')[0];
     transitionDelay = transitionDelay.split(',')[0];
@@ -119,7 +121,6 @@
 
   const getElement = obj => {
     if (isElement$1(obj)) {
-
       // it's a jQuery object or a node element
       return obj.jquery ? obj[0] : obj;
     }
@@ -172,6 +173,7 @@
       return null;
     } // Can find the shadow root otherwise it'll return the document
 
+
     if (typeof element.getRootNode === 'function') {
       const root = element.getRootNode();
       return root instanceof ShadowRoot ? root : null;
@@ -181,6 +183,7 @@
       return element;
     } // when we don't find a shadow root
 
+
     if (!element.parentNode) {
       return null;
     }
@@ -188,7 +191,7 @@
     return findShadowRoot(element.parentNode);
   };
 
-  const noop = () => { };
+  const noop = () => {};
   /**
    * Trick to restart an element's animation
    *
@@ -198,8 +201,8 @@
    * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
    */
 
-  const reflow = element => {
 
+  const reflow = element => {
     // eslint-disable-next-line no-unused-expressions
     element.offsetHeight;
   };
@@ -220,7 +223,6 @@
 
   const onDOMContentLoaded = callback => {
     if (document.readyState === 'loading') {
-
       // add listener on the first call when the document is in loading state
       if (!DOMContentLoadedCallbacks.length) {
         document.addEventListener('DOMContentLoaded', () => {
@@ -299,6 +301,7 @@
    * @param isCycleAllowed
    * @return {Element|elem} The proper element
    */
+
 
   const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
     let index = list.indexOf(activeElement); // if the element does not exist in the list return an element depending on the direction and if cycle is allowed
@@ -382,7 +385,6 @@
             event.delegateTarget = target;
 
             if (handler.oneOff) {
-
               // eslint-disable-next-line unicorn/consistent-destructuring
               EventHandler.off(element, event.type, selector, fn);
             }
@@ -391,6 +393,7 @@
           }
         }
       } // To please ESLint
+
 
       return null;
     };
@@ -432,8 +435,8 @@
       handler = delegationFn;
       delegationFn = null;
     } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-
     // this prevents the handler from being dispatched the same way as mouseover or mouseout does
+
 
     if (customEventsRegex.test(originalTypeEvent)) {
       const wrapFn = fn => {
@@ -493,7 +496,6 @@
   }
 
   function getTypeEvent(event) {
-
     // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
     event = event.replace(stripNameRegex, '');
     return customEvents[event] || event;
@@ -519,7 +521,6 @@
       const isNamespace = originalTypeEvent.startsWith('.');
 
       if (typeof originalHandler !== 'undefined') {
-
         // Simplest case: handler is passed, remove that listener ONLY.
         if (!events || !events[typeEvent]) {
           return;
@@ -579,12 +580,14 @@
         });
       } // merge custom information in our event
 
+
       if (typeof args !== 'undefined') {
         Object.keys(args).forEach(key => {
           Object.defineProperty(evt, key, {
             get() {
               return args[key];
             }
+
           });
         });
       }
@@ -603,6 +606,7 @@
 
       return evt;
     }
+
   };
 
   /**
@@ -625,11 +629,9 @@
       }
 
       const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-
       // can be removed later when multiple key/instances are fine to be used
 
       if (!instanceMap.has(key) && instanceMap.size !== 0) {
-
         // eslint-disable-next-line no-console
         console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
         return;
@@ -658,6 +660,7 @@
         elementMap.delete(element);
       }
     }
+
   };
 
   /**
@@ -699,6 +702,7 @@
     }
     /** Static */
 
+
     static getInstance(element) {
       return Data.get(getElement(element), this.DATA_KEY);
     }
@@ -722,6 +726,7 @@
     static get EVENT_KEY() {
       return `.${this.DATA_KEY}`;
     }
+
   }
 
   /**
@@ -776,11 +781,11 @@
    */
 
   class Alert extends BaseComponent {
-
     // Getters
     static get NAME() {
       return NAME$d;
     } // Public
+
 
     close() {
       const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
@@ -796,12 +801,14 @@
       this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
     } // Private
 
+
     _destroyElement() {
       this._element.remove();
 
       EventHandler.trigger(this._element, EVENT_CLOSED);
       this.dispose();
     } // Static
+
 
     static jQueryInterface(config) {
       return this.each(function () {
@@ -818,12 +825,14 @@
         data[config](this);
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   enableDismissTrigger(Alert, 'close');
   /**
@@ -861,17 +870,17 @@
    */
 
   class Button extends BaseComponent {
-
     // Getters
     static get NAME() {
       return NAME$c;
     } // Public
 
-    toggle() {
 
+    toggle() {
       // Toggle class and sync the `aria-pressed` attribute with the return value of the `.toggle()` method
       this._element.setAttribute('aria-pressed', this._element.classList.toggle(CLASS_NAME_ACTIVE$3));
     } // Static
+
 
     static jQueryInterface(config) {
       return this.each(function () {
@@ -882,12 +891,14 @@
         }
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$5, event => {
     event.preventDefault();
@@ -975,6 +986,7 @@
         left: element.offsetLeft
       };
     }
+
   };
 
   /**
@@ -1044,6 +1056,7 @@
       const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
       return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
     }
+
   };
 
   /**
@@ -1148,6 +1161,7 @@
       this._addEventListeners();
     } // Getters
 
+
     static get Default() {
       return Default$a;
     }
@@ -1156,12 +1170,12 @@
       return NAME$b;
     } // Public
 
+
     next() {
       this._slide(ORDER_NEXT);
     }
 
     nextWhenVisible() {
-
       // Don't call next when the page isn't visible
       // or the carousel or its parent isn't visible
       if (!document.hidden && isVisible(this._element)) {
@@ -1229,9 +1243,9 @@
       this._slide(order, this._items[index]);
     } // Private
 
+
     _getConfig(config) {
-      config = {
-        ...Default$a,
+      config = { ...Default$a,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -1281,7 +1295,6 @@
       };
 
       const move = event => {
-
         // ensure swiping with one touch and not pinching
         this.touchDeltaX = event.touches && event.touches.length > 1 ? 0 : event.touches[0].clientX - this.touchStartX;
       };
@@ -1294,7 +1307,6 @@
         this._handleSwipe();
 
         if (this._config.pause === 'hover') {
-
           // If it's a touch-enabled device, mouseenter/leave are fired as
           // part of the mouse compatibility events on first tap - the carousel
           // would stop cycling until user tapped out of it;
@@ -1433,7 +1445,6 @@
       }
 
       if (!activeElement || !nextElement) {
-
         // Some weirdness is happening, so we bail
         return;
       }
@@ -1508,6 +1519,7 @@
       return order === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
     } // Static
 
+
     static carouselInterface(element, config) {
       const data = Carousel.getOrCreateInstance(element, config);
       let {
@@ -1515,8 +1527,7 @@
       } = data;
 
       if (typeof config === 'object') {
-        _config = {
-          ..._config,
+        _config = { ..._config,
           ...config
         };
       }
@@ -1550,8 +1561,7 @@
         return;
       }
 
-      const config = {
-        ...Manipulator.getDataAttributes(target),
+      const config = { ...Manipulator.getDataAttributes(target),
         ...Manipulator.getDataAttributes(this)
       };
       const slideIndex = this.getAttribute('data-bs-slide-to');
@@ -1568,12 +1578,14 @@
 
       event.preventDefault();
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, Carousel.dataApiClickHandler);
   EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
@@ -1667,6 +1679,7 @@
       }
     } // Getters
 
+
     static get Default() {
       return Default$9;
     }
@@ -1674,6 +1687,7 @@
     static get NAME() {
       return NAME$a;
     } // Public
+
 
     toggle() {
       if (this._isShown()) {
@@ -1808,9 +1822,9 @@
       return element.classList.contains(CLASS_NAME_SHOW$7);
     } // Private
 
+
     _getConfig(config) {
-      config = {
-        ...Default$9,
+      config = { ...Default$9,
         ...Manipulator.getDataAttributes(this._element),
         ...config
       };
@@ -1856,6 +1870,7 @@
       });
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const _config = {};
@@ -1875,6 +1890,7 @@
         }
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
@@ -1882,8 +1898,8 @@
    * ------------------------------------------------------------------------
    */
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function (event) {
 
+  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function (event) {
     // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
     if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
       event.preventDefault();
@@ -1966,7 +1982,6 @@
   }
 
   function isShadowRoot(node) {
-
     // IE 11 has no ShadowRoot
     if (typeof ShadowRoot === 'undefined') {
       return false;
@@ -1988,9 +2003,9 @@
       if (!isHTMLElement(element) || !getNodeName(element)) {
         return;
       } // Flow doesn't support to extend this property, but it's the most
-
       // effective way to apply styles to an HTMLElement
       // $FlowFixMe[cannot-write]
+
 
       Object.assign(element.style, style);
       Object.keys(attributes).forEach(function (name) {
@@ -2049,6 +2064,7 @@
     };
   } // eslint-disable-next-line import/no-unused-modules
 
+
   var applyStyles$1 = {
     name: 'applyStyles',
     enabled: true,
@@ -2073,7 +2089,6 @@
     var scaleY = 1;
 
     if (isHTMLElement(element) && includeScale) {
-
       // Fallback to 1 in case both values are `0`
       scaleX = rect.width / element.offsetWidth || 1;
       scaleY = rect.height / element.offsetHeight || 1;
@@ -2095,7 +2110,6 @@
 
   function getLayoutRect(element) {
     var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
-
     // Fixes https://github.com/popperjs/popper-core/issues/1223
 
     var width = element.offsetWidth;
@@ -2124,16 +2138,18 @@
       return true;
     } // then fallback to custom implementation with Shadow DOM support
     else if (rootNode && isShadowRoot(rootNode)) {
-      var next = child;
+        var next = child;
 
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
-        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+        do {
+          if (next && parent.isSameNode(next)) {
+            return true;
+          } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
-        next = next.parentNode || next.host;
-      } while (next);
-    } // Give up, the result is false
+
+          next = next.parentNode || next.host;
+        } while (next);
+      } // Give up, the result is false
+
 
     return false;
   }
@@ -2147,10 +2163,9 @@
   }
 
   function getDocumentElement(element) {
-
     // $FlowFixMe[incompatible-return]: assume body is always available
     return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
-      element.document) || window.document).documentElement;
+    element.document) || window.document).documentElement;
   }
 
   function getParentNode(element) {
@@ -2159,13 +2174,11 @@
     }
 
     return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
-
       // $FlowFixMe[incompatible-return]
       // $FlowFixMe[prop-missing]
       element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
       element.parentNode || ( // DOM Element detected
-        isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
-
+      isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
       // $FlowFixMe[incompatible-call]: HTMLElement is a Node
       getDocumentElement(element) // fallback
 
@@ -2174,21 +2187,20 @@
 
   function getTrueOffsetParent(element) {
     if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-      getComputedStyle$1(element).position === 'fixed') {
+    getComputedStyle$1(element).position === 'fixed') {
       return null;
     }
 
     return element.offsetParent;
   } // `.offsetParent` reports `null` for fixed elements, while absolute elements
-
   // return the containing block
+
 
   function getContainingBlock(element) {
     var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
     var isIE = navigator.userAgent.indexOf('Trident') !== -1;
 
     if (isIE && isHTMLElement(element)) {
-
       // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
       var elementCss = getComputedStyle$1(element);
 
@@ -2201,7 +2213,6 @@
 
     while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
       var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
-
       // create a containing block.
       // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
@@ -2214,8 +2225,8 @@
 
     return null;
   } // Gets the closest ancestor positioned element. Handles some edge cases,
-
   // such as table ancestors and cross browser bugs.
+
 
   function getOffsetParent(element) {
     var window = getWindow(element);
@@ -2275,8 +2286,8 @@
     var _state$modifiersData$;
 
     var state = _ref.state,
-      name = _ref.name,
-      options = _ref.options;
+        name = _ref.name,
+        options = _ref.options;
     var arrowElement = state.elements.arrow;
     var popperOffsets = state.modifiersData.popperOffsets;
     var basePlacement = getBasePlacement(state.placement);
@@ -2297,7 +2308,6 @@
     var arrowOffsetParent = getOffsetParent(arrowElement);
     var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
     var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
-
     // outside of the popper bounds
 
     var min = paddingObject[minProp];
@@ -2311,13 +2321,14 @@
 
   function effect$1(_ref2) {
     var state = _ref2.state,
-      options = _ref2.options;
+        options = _ref2.options;
     var _options$element = options.element,
-      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
+        arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
 
     if (arrowElement == null) {
       return;
     } // CSS selector
+
 
     if (typeof arrowElement === 'string') {
       arrowElement = state.elements.popper.querySelector(arrowElement);
@@ -2328,11 +2339,13 @@
     }
 
     if (!contains(state.elements.popper, arrowElement)) {
+
       return;
     }
 
     state.elements.arrow = arrowElement;
   } // eslint-disable-next-line import/no-unused-modules
+
 
   var arrow$1 = {
     name: 'arrow',
@@ -2350,13 +2363,12 @@
     bottom: 'auto',
     left: 'auto'
   }; // Round the offsets to the nearest suitable subpixel based on the DPR.
-
   // Zooming can change the DPR, but it seems to report a value that will
   // cleanly divide the values into the appropriate subpixels.
 
   function roundOffsetsByDPR(_ref) {
     var x = _ref.x,
-      y = _ref.y;
+        y = _ref.y;
     var win = window;
     var dpr = win.devicePixelRatio || 1;
     return {
@@ -2369,19 +2381,19 @@
     var _Object$assign2;
 
     var popper = _ref2.popper,
-      popperRect = _ref2.popperRect,
-      placement = _ref2.placement,
-      offsets = _ref2.offsets,
-      position = _ref2.position,
-      gpuAcceleration = _ref2.gpuAcceleration,
-      adaptive = _ref2.adaptive,
-      roundOffsets = _ref2.roundOffsets;
+        popperRect = _ref2.popperRect,
+        placement = _ref2.placement,
+        offsets = _ref2.offsets,
+        position = _ref2.position,
+        gpuAcceleration = _ref2.gpuAcceleration,
+        adaptive = _ref2.adaptive,
+        roundOffsets = _ref2.roundOffsets;
 
     var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets,
-      _ref3$x = _ref3.x,
-      x = _ref3$x === void 0 ? 0 : _ref3$x,
-      _ref3$y = _ref3.y,
-      y = _ref3$y === void 0 ? 0 : _ref3$y;
+        _ref3$x = _ref3.x,
+        x = _ref3$x === void 0 ? 0 : _ref3$x,
+        _ref3$y = _ref3.y,
+        y = _ref3$y === void 0 ? 0 : _ref3$y;
 
     var hasX = offsets.hasOwnProperty('x');
     var hasY = offsets.hasOwnProperty('y');
@@ -2402,6 +2414,7 @@
           widthProp = 'scrollWidth';
         }
       } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
 
       offsetParent = offsetParent;
 
@@ -2435,13 +2448,13 @@
 
   function computeStyles(_ref4) {
     var state = _ref4.state,
-      options = _ref4.options;
+        options = _ref4.options;
     var _options$gpuAccelerat = options.gpuAcceleration,
-      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-      _options$adaptive = options.adaptive,
-      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-      _options$roundOffsets = options.roundOffsets,
-      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+        gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+        _options$adaptive = options.adaptive,
+        adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+        _options$roundOffsets = options.roundOffsets,
+        roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
 
     var commonStyles = {
       placement: getBasePlacement(state.placement),
@@ -2473,6 +2486,7 @@
     });
   } // eslint-disable-next-line import/no-unused-modules
 
+
   var computeStyles$1 = {
     name: 'computeStyles',
     enabled: true,
@@ -2487,12 +2501,12 @@
 
   function effect(_ref) {
     var state = _ref.state,
-      instance = _ref.instance,
-      options = _ref.options;
+        instance = _ref.instance,
+        options = _ref.options;
     var _options$scroll = options.scroll,
-      scroll = _options$scroll === void 0 ? true : _options$scroll,
-      _options$resize = options.resize,
-      resize = _options$resize === void 0 ? true : _options$resize;
+        scroll = _options$scroll === void 0 ? true : _options$scroll,
+        _options$resize = options.resize,
+        resize = _options$resize === void 0 ? true : _options$resize;
     var window = getWindow(state.elements.popper);
     var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
 
@@ -2519,11 +2533,12 @@
     };
   } // eslint-disable-next-line import/no-unused-modules
 
+
   var eventListeners = {
     name: 'eventListeners',
     enabled: true,
     phase: 'write',
-    fn: function fn() { },
+    fn: function fn() {},
     effect: effect,
     data: {}
   };
@@ -2561,7 +2576,6 @@
   }
 
   function getWindowScrollBarX(element) {
-
     // If <html> has a CSS width greater than the viewport, then this will be
     // incorrect for RTL.
     // Popper 1 is broken in this case and never had a bug report so let's assume
@@ -2580,7 +2594,6 @@
     var height = html.clientHeight;
     var x = 0;
     var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
-
     // can be obscured underneath it.
     // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
     // if it isn't open, so if this isn't available, the popper will be detected
@@ -2589,7 +2602,6 @@
     if (visualViewport) {
       width = visualViewport.width;
       height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
-
       // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
       // errors due to floating point numbers, so we need to check precision.
       // Safari returns a number <= 0, usually < -1 when pinch-zoomed
@@ -2638,19 +2650,17 @@
   }
 
   function isScrollParent(element) {
-
     // Firefox wants us to check `-x` and `-y` variations as well
     var _getComputedStyle = getComputedStyle$1(element),
-      overflow = _getComputedStyle.overflow,
-      overflowX = _getComputedStyle.overflowX,
-      overflowY = _getComputedStyle.overflowY;
+        overflow = _getComputedStyle.overflow,
+        overflowX = _getComputedStyle.overflowX,
+        overflowY = _getComputedStyle.overflowY;
 
     return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
   }
 
   function getScrollParent(node) {
     if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
-
       // $FlowFixMe[incompatible-return]: assume body is always available
       return node.ownerDocument.body;
     }
@@ -2682,7 +2692,7 @@
     var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
     var updatedList = list.concat(target);
     return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
-      updatedList.concat(listScrollParents(getParentNode(target)));
+    updatedList.concat(listScrollParents(getParentNode(target)));
   }
 
   function rectToClientRect(rect) {
@@ -2710,9 +2720,9 @@
   function getClientRectFromMixedType(element, clippingParent) {
     return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
   } // A "clipping parent" is an overflowable container with the characteristic of
-
   // clipping (or hiding) overflowing elements with a position different from
   // `initial`
+
 
   function getClippingParents(element) {
     var clippingParents = listScrollParents(getParentNode(element));
@@ -2723,12 +2733,13 @@
       return [];
     } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
+
     return clippingParents.filter(function (clippingParent) {
       return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
     });
   } // Gets the maximum area that the element is visible in due to any number of
-
   // clipping parents
+
 
   function getClippingRect(element, boundary, rootBoundary) {
     var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
@@ -2755,8 +2766,8 @@
 
   function computeOffsets(_ref) {
     var reference = _ref.reference,
-      element = _ref.element,
-      placement = _ref.placement;
+        element = _ref.element,
+        placement = _ref.placement;
     var basePlacement = placement ? getBasePlacement(placement) : null;
     var variation = placement ? getVariation(placement) : null;
     var commonX = reference.x + reference.width / 2 - element.width / 2;
@@ -2824,18 +2835,18 @@
     }
 
     var _options = options,
-      _options$placement = _options.placement,
-      placement = _options$placement === void 0 ? state.placement : _options$placement,
-      _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-      _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-      _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-      _options$altBoundary = _options.altBoundary,
-      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-      _options$padding = _options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding;
+        _options$placement = _options.placement,
+        placement = _options$placement === void 0 ? state.placement : _options$placement,
+        _options$boundary = _options.boundary,
+        boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+        _options$rootBoundary = _options.rootBoundary,
+        rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+        _options$elementConte = _options.elementContext,
+        elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+        _options$altBoundary = _options.altBoundary,
+        altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+        _options$padding = _options.padding,
+        padding = _options$padding === void 0 ? 0 : _options$padding;
     var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
     var altContext = elementContext === popper ? reference : popper;
     var referenceElement = state.elements.reference;
@@ -2851,7 +2862,6 @@
     });
     var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
     var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
-
     // 0 or negative = within the clipping rect
 
     var overflowOffsets = {
@@ -2880,13 +2890,13 @@
     }
 
     var _options = options,
-      placement = _options.placement,
-      boundary = _options.boundary,
-      rootBoundary = _options.rootBoundary,
-      padding = _options.padding,
-      flipVariations = _options.flipVariations,
-      _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+        placement = _options.placement,
+        boundary = _options.boundary,
+        rootBoundary = _options.rootBoundary,
+        padding = _options.padding,
+        flipVariations = _options.flipVariations,
+        _options$allowedAutoP = _options.allowedAutoPlacements,
+        allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
     var variation = getVariation(placement);
     var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
       return getVariation(placement) === variation;
@@ -2898,6 +2908,7 @@
     if (allowedPlacements.length === 0) {
       allowedPlacements = placements$1;
     } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+
 
     var overflows = allowedPlacements.reduce(function (acc, placement) {
       acc[placement] = detectOverflow(state, {
@@ -2924,25 +2935,25 @@
 
   function flip(_ref) {
     var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
+        options = _ref.options,
+        name = _ref.name;
 
     if (state.modifiersData[name]._skip) {
       return;
     }
 
     var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-      specifiedFallbackPlacements = options.fallbackPlacements,
-      padding = options.padding,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-      allowedAutoPlacements = options.allowedAutoPlacements;
+        checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+        _options$altAxis = options.altAxis,
+        checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+        specifiedFallbackPlacements = options.fallbackPlacements,
+        padding = options.padding,
+        boundary = options.boundary,
+        rootBoundary = options.rootBoundary,
+        altBoundary = options.altBoundary,
+        _options$flipVariatio = options.flipVariations,
+        flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+        allowedAutoPlacements = options.allowedAutoPlacements;
     var preferredPlacement = state.options.placement;
     var basePlacement = getBasePlacement(preferredPlacement);
     var isBasePlacement = basePlacement === preferredPlacement;
@@ -3007,7 +3018,6 @@
     }
 
     if (makeFallbackChecks) {
-
       // `2` may be desired in some cases – research later
       var numberOfChecks = flipVariations ? 3 : 1;
 
@@ -3041,6 +3051,7 @@
       state.reset = true;
     }
   } // eslint-disable-next-line import/no-unused-modules
+
 
   var flip$1 = {
     name: 'flip',
@@ -3077,7 +3088,7 @@
 
   function hide(_ref) {
     var state = _ref.state,
-      name = _ref.name;
+        name = _ref.name;
     var referenceRect = state.rects.reference;
     var popperRect = state.rects.popper;
     var preventedOffsets = state.modifiersData.preventOverflow;
@@ -3103,6 +3114,7 @@
     });
   } // eslint-disable-next-line import/no-unused-modules
 
+
   var hide$1 = {
     name: 'hide',
     enabled: true,
@@ -3118,8 +3130,8 @@
     var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
       placement: placement
     })) : offset,
-      skidding = _ref[0],
-      distance = _ref[1];
+        skidding = _ref[0],
+        distance = _ref[1];
 
     skidding = skidding || 0;
     distance = (distance || 0) * invertDistance;
@@ -3134,17 +3146,17 @@
 
   function offset(_ref2) {
     var state = _ref2.state,
-      options = _ref2.options,
-      name = _ref2.name;
+        options = _ref2.options,
+        name = _ref2.name;
     var _options$offset = options.offset,
-      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+        offset = _options$offset === void 0 ? [0, 0] : _options$offset;
     var data = placements.reduce(function (acc, placement) {
       acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
       return acc;
     }, {});
     var _data$state$placement = data[state.placement],
-      x = _data$state$placement.x,
-      y = _data$state$placement.y;
+        x = _data$state$placement.x,
+        y = _data$state$placement.y;
 
     if (state.modifiersData.popperOffsets != null) {
       state.modifiersData.popperOffsets.x += x;
@@ -3153,6 +3165,7 @@
 
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
+
 
   var offset$1 = {
     name: 'offset',
@@ -3164,8 +3177,7 @@
 
   function popperOffsets(_ref) {
     var state = _ref.state,
-      name = _ref.name;
-
+        name = _ref.name;
     // Offsets are the actual position the popper needs to have to be
     // properly positioned near its reference element
     // This is the most basic placement, and will be adjusted by
@@ -3177,6 +3189,7 @@
       placement: state.placement
     });
   } // eslint-disable-next-line import/no-unused-modules
+
 
   var popperOffsets$1 = {
     name: 'popperOffsets',
@@ -3192,20 +3205,20 @@
 
   function preventOverflow(_ref) {
     var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
+        options = _ref.options,
+        name = _ref.name;
     var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      padding = options.padding,
-      _options$tether = options.tether,
-      tether = _options$tether === void 0 ? true : _options$tether,
-      _options$tetherOffset = options.tetherOffset,
-      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+        checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+        _options$altAxis = options.altAxis,
+        checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+        boundary = options.boundary,
+        rootBoundary = options.rootBoundary,
+        altBoundary = options.altBoundary,
+        padding = options.padding,
+        _options$tether = options.tether,
+        tether = _options$tether === void 0 ? true : _options$tether,
+        _options$tetherOffset = options.tetherOffset,
+        tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
     var overflow = detectOverflow(state, {
       boundary: boundary,
       rootBoundary: rootBoundary,
@@ -3242,7 +3255,6 @@
       var additive = tether ? -popperRect[len] / 2 : 0;
       var minLen = variation === start ? referenceRect[len] : popperRect[len];
       var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
-
       // outside the reference bounds
 
       var arrowElement = state.elements.arrow;
@@ -3253,7 +3265,6 @@
       var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
       var arrowPaddingMin = arrowPaddingObject[mainSide];
       var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
-
       // to include its full size in the calculation. If the reference is small
       // and near the edge of a boundary, the popper can overflow even if the
       // reference is not overflowing as well (e.g. virtual elements with no
@@ -3295,6 +3306,7 @@
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
 
+
   var preventOverflow$1 = {
     name: 'preventOverflow',
     enabled: true,
@@ -3324,8 +3336,8 @@
     var scaleY = rect.height / element.offsetHeight || 1;
     return scaleX !== 1 || scaleY !== 1;
   } // Returns the composite rect of an element relative to its offsetParent.
-
   // Composite means it takes into account transforms as well as layout.
+
 
   function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     if (isFixed === void 0) {
@@ -3347,7 +3359,7 @@
 
     if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
       if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
-        isScrollParent(documentElement)) {
+      isScrollParent(documentElement)) {
         scroll = getNodeScroll(offsetParent);
       }
 
@@ -3393,7 +3405,6 @@
 
     modifiers.forEach(function (modifier) {
       if (!visited.has(modifier.name)) {
-
         // check for visited object
         sort(modifier);
       }
@@ -3402,7 +3413,6 @@
   }
 
   function orderModifiers(modifiers) {
-
     // order based on dependencies
     var orderedModifiers = order(modifiers); // order based on phase
 
@@ -3466,10 +3476,10 @@
     }
 
     var _generatorOptions = generatorOptions,
-      _generatorOptions$def = _generatorOptions.defaultModifiers,
-      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-      _generatorOptions$def2 = _generatorOptions.defaultOptions,
-      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+        _generatorOptions$def = _generatorOptions.defaultModifiers,
+        defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+        _generatorOptions$def2 = _generatorOptions.defaultOptions,
+        defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
     return function createPopper(reference, popper, options) {
       if (options === void 0) {
         options = defaultOptions;
@@ -3498,7 +3508,6 @@
             reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
             popper: listScrollParents(popper)
           }; // Orders the modifiers based on their dependencies and `phase`
-
           // properties
 
           var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
@@ -3510,7 +3519,6 @@
           runModifierEffects();
           return instance.update();
         },
-
         // Sync update – it will always be executed, even if not necessary. This
         // is useful for low frequency updates where sync behavior simplifies the
         // logic.
@@ -3522,20 +3530,20 @@
           }
 
           var _state$elements = state.elements,
-            reference = _state$elements.reference,
-            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
-
+              reference = _state$elements.reference,
+              popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
           // anymore
 
           if (!areValidElements(reference, popper)) {
+
             return;
           } // Store the reference and popper rects to be read by modifiers
+
 
           state.rects = {
             reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
             popper: getLayoutRect(popper)
           }; // Modifiers have the ability to reset the current update cycle. The
-
           // most common use case for this is the `flip` modifier changing the
           // placement, which then needs to re-run all the modifiers, because the
           // logic was previously ran for the previous placement and is therefore
@@ -3543,7 +3551,6 @@
 
           state.reset = false;
           state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
-
           // is filled with the initial data specified by the modifier. This means
           // it doesn't persist and is fresh on each update.
           // To ensure persistent data, use `${name}#persistent`
@@ -3553,6 +3560,7 @@
           });
 
           for (var index = 0; index < state.orderedModifiers.length; index++) {
+
             if (state.reset === true) {
               state.reset = false;
               index = -1;
@@ -3560,10 +3568,10 @@
             }
 
             var _state$orderedModifie = state.orderedModifiers[index],
-              fn = _state$orderedModifie.fn,
-              _state$orderedModifie2 = _state$orderedModifie.options,
-              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-              name = _state$orderedModifie.name;
+                fn = _state$orderedModifie.fn,
+                _state$orderedModifie2 = _state$orderedModifie.options,
+                _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+                name = _state$orderedModifie.name;
 
             if (typeof fn === 'function') {
               state = fn({
@@ -3575,7 +3583,6 @@
             }
           }
         },
-
         // Async and optimistically optimized update – it will not be executed if
         // not necessary (debounced to run at most once-per-tick)
         update: debounce(function () {
@@ -3591,6 +3598,7 @@
       };
 
       if (!areValidElements(reference, popper)) {
+
         return instance;
       }
 
@@ -3599,7 +3607,6 @@
           options.onFirstUpdate(state);
         }
       }); // Modifiers have the ability to execute arbitrary code before the first
-
       // update cycle runs. They will be executed in the same order as the update
       // cycle. This is useful when a modifier adds some persistent data that
       // other modifiers need to use, but the modifier is run after the dependent
@@ -3608,9 +3615,9 @@
       function runModifierEffects() {
         state.orderedModifiers.forEach(function (_ref3) {
           var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
+              _ref3$options = _ref3.options,
+              options = _ref3$options === void 0 ? {} : _ref3$options,
+              effect = _ref3.effect;
 
           if (typeof effect === 'function') {
             var cleanupFn = effect({
@@ -3620,7 +3627,7 @@
               options: options
             });
 
-            var noopFn = function noopFn() { };
+            var noopFn = function noopFn() {};
 
             effectCleanupFns.push(cleanupFn || noopFn);
           }
@@ -3768,6 +3775,7 @@
       this._inNavbar = this._detectNavbar();
     } // Getters
 
+
     static get Default() {
       return Default$8;
     }
@@ -3779,6 +3787,7 @@
     static get NAME() {
       return NAME$9;
     } // Public
+
 
     toggle() {
       return this._isShown() ? this.hide() : this.show();
@@ -3805,10 +3814,10 @@
       } else {
         this._createPopper(parent);
       } // If this is a touch-enabled device we add extra
-
       // empty mouseover listeners to the body's immediate children;
       // only needed because of broken event delegation on iOS
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+
 
       if ('ontouchstart' in document.documentElement && !parent.closest(SELECTOR_NAVBAR_NAV)) {
         [].concat(...document.body.children).forEach(elem => EventHandler.on(elem, 'mouseover', noop));
@@ -3853,14 +3862,15 @@
       }
     } // Private
 
+
     _completeHide(relatedTarget) {
       const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4, relatedTarget);
 
       if (hideEvent.defaultPrevented) {
         return;
       } // If this is a touch-enabled device we remove the extra
-
       // empty mouseover listeners we added for iOS support
+
 
       if ('ontouchstart' in document.documentElement) {
         [].concat(...document.body.children).forEach(elem => EventHandler.off(elem, 'mouseover', noop));
@@ -3881,15 +3891,13 @@
     }
 
     _getConfig(config) {
-      config = {
-        ...this.constructor.Default,
+      config = { ...this.constructor.Default,
         ...Manipulator.getDataAttributes(this._element),
         ...config
       };
       typeCheckConfig(NAME$9, config, this.constructor.DefaultType);
 
       if (typeof config.reference === 'object' && !isElement$1(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
-
         // Popper virtual elements require a getBoundingClientRect method
         throw new TypeError(`${NAME$9.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
       }
@@ -3940,6 +3948,7 @@
       if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
         return PLACEMENT_LEFT;
       } // We need to trim the value because custom properties can also include spaces
+
 
       const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
 
@@ -3993,8 +4002,7 @@
         }];
       }
 
-      return {
-        ...defaultBsPopperConfig,
+      return { ...defaultBsPopperConfig,
         ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
       };
     }
@@ -4008,11 +4016,12 @@
       if (!items.length) {
         return;
       } // if target isn't included in items (e.g. when expanding the dropdown)
-
       // allow cycling to get the last item in case key equals ARROW_UP_KEY
+
 
       getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target)).focus();
     } // Static
+
 
     static jQueryInterface(config) {
       return this.each(function () {
@@ -4060,6 +4069,7 @@
             continue;
           } // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
 
+
           if (context._menu.contains(event.target) && (event.type === 'keyup' && event.key === TAB_KEY$1 || /input|select|option|textarea|form/i.test(event.target.tagName))) {
             continue;
           }
@@ -4078,7 +4088,6 @@
     }
 
     static dataApiKeydownHandler(event) {
-
       // If not input/textarea:
       //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
       // If input/textarea:
@@ -4125,12 +4134,14 @@
         Dropdown.clearMenus();
       }
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$3, Dropdown.dataApiKeydownHandler);
   EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
@@ -4164,7 +4175,6 @@
     }
 
     getWidth() {
-
       // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
       const documentWidth = document.documentElement.clientWidth;
       return Math.abs(window.innerWidth - documentWidth);
@@ -4175,7 +4185,9 @@
 
       this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
 
+
       this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+
 
       this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
 
@@ -4249,6 +4261,7 @@
     isOverflowing() {
       return this.getWidth() > 0;
     }
+
   }
 
   /**
@@ -4260,11 +4273,9 @@
   const Default$7 = {
     className: 'modal-backdrop',
     isVisible: true,
-
     // if false, we use the backdrop helper without adding any element to the dom
     isAnimated: false,
     rootElement: 'body',
-
     // give the choice to place backdrop under different elements
     clickCallback: null
   };
@@ -4320,6 +4331,7 @@
       });
     } // Private
 
+
     _getElement() {
       if (!this._element) {
         const backdrop = document.createElement('div');
@@ -4336,8 +4348,7 @@
     }
 
     _getConfig(config) {
-      config = {
-        ...Default$7,
+      config = { ...Default$7,
         ...(typeof config === 'object' ? config : {})
       }; // use getElement() with the default "body" to get a fresh Element on each instantiation
 
@@ -4374,6 +4385,7 @@
     _emulateAnimation(callback) {
       executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
     }
+
   }
 
   /**
@@ -4384,7 +4396,6 @@
    */
   const Default$6 = {
     trapElement: null,
-
     // The element to trap focus inside of
     autofocus: true
   };
@@ -4438,6 +4449,7 @@
       EventHandler.off(document, EVENT_KEY$7);
     } // Private
 
+
     _handleFocusin(event) {
       const {
         target
@@ -4470,13 +4482,13 @@
     }
 
     _getConfig(config) {
-      config = {
-        ...Default$6,
+      config = { ...Default$6,
         ...(typeof config === 'object' ? config : {})
       };
       typeCheckConfig(NAME$7, config, DefaultType$6);
       return config;
     }
+
   }
 
   /**
@@ -4543,6 +4555,7 @@
       this._scrollBar = new ScrollBarHelper();
     } // Getters
 
+
     static get Default() {
       return Default$5;
     }
@@ -4550,6 +4563,7 @@
     static get NAME() {
       return NAME$6;
     } // Public
+
 
     toggle(relatedTarget) {
       return this._isShown ? this.hide() : this.show(relatedTarget);
@@ -4642,10 +4656,10 @@
       this._adjustDialog();
     } // Private
 
+
     _initializeBackDrop() {
       return new Backdrop({
         isVisible: Boolean(this._config.backdrop),
-
         // 'static' option will be translated to true, and booleans will keep their value
         isAnimated: this._isAnimated()
       });
@@ -4658,8 +4672,7 @@
     }
 
     _getConfig(config) {
-      config = {
-        ...Default$5,
+      config = { ...Default$5,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -4673,7 +4686,6 @@
       const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
 
       if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-
         // Don't move modal's DOM position
         document.body.append(this._element);
       }
@@ -4818,9 +4830,9 @@
 
       this._element.focus();
     } // ----------------------------------------------------------------------
-
     // the following methods are used to handle overflowing modals
     // ----------------------------------------------------------------------
+
 
     _adjustDialog() {
       const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
@@ -4843,6 +4855,7 @@
       this._element.style.paddingRight = '';
     } // Static
 
+
     static jQueryInterface(config, relatedTarget) {
       return this.each(function () {
         const data = Modal.getOrCreateInstance(this, config);
@@ -4858,12 +4871,14 @@
         data[config](relatedTarget);
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$2, function (event) {
     const target = getElementFromSelector(this);
@@ -4874,7 +4889,6 @@
 
     EventHandler.one(target, EVENT_SHOW$3, showEvent => {
       if (showEvent.defaultPrevented) {
-
         // only register focus restorer if modal will actually get shown
         return;
       }
@@ -4953,6 +4967,7 @@
       this._addEventListeners();
     } // Getters
 
+
     static get NAME() {
       return NAME$5;
     }
@@ -4960,6 +4975,7 @@
     static get Default() {
       return Default$4;
     } // Public
+
 
     toggle(relatedTarget) {
       return this._isShown ? this.hide() : this.show(relatedTarget);
@@ -5056,9 +5072,9 @@
       super.dispose();
     } // Private
 
+
     _getConfig(config) {
-      config = {
-        ...Default$4,
+      config = { ...Default$4,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -5090,6 +5106,7 @@
       });
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Offcanvas.getOrCreateInstance(this, config);
@@ -5105,12 +5122,14 @@
         data[config](this);
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, function (event) {
     const target = getElementFromSelector(this);
@@ -5124,7 +5143,6 @@
     }
 
     EventHandler.one(target, EVENT_HIDDEN$2, () => {
-
       // focus on trigger when it is closed
       if (isVisible(this)) {
         this.focus();
@@ -5196,7 +5214,6 @@
   };
 
   const DefaultAllowlist = {
-
     // Global attributes allowed on any supplied element below.
     '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
     a: ['target', 'href', 'title', 'rel'],
@@ -5376,6 +5393,7 @@
       this._setListeners();
     } // Getters
 
+
     static get Default() {
       return Default$3;
     }
@@ -5391,6 +5409,7 @@
     static get DefaultType() {
       return DefaultType$3;
     } // Public
+
 
     enable() {
       this._isEnabled = true;
@@ -5501,10 +5520,10 @@
       if (customClass) {
         tip.classList.add(...customClass.split(' '));
       } // If this is a touch-enabled device we add extra
-
       // empty mouseover listeners to the body's immediate children;
       // only needed because of broken event delegation on iOS
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+
 
       if ('ontouchstart' in document.documentElement) {
         [].concat(...document.body.children).forEach(element => {
@@ -5563,7 +5582,6 @@
       }
 
       tip.classList.remove(CLASS_NAME_SHOW$2); // If this is a touch-enabled device we remove the extra
-
       // empty mouseover listeners we added for iOS support
 
       if ('ontouchstart' in document.documentElement) {
@@ -5585,6 +5603,7 @@
         this._popper.update();
       }
     } // Protected
+
 
     isWithContent() {
       return Boolean(this.getTitle());
@@ -5615,6 +5634,7 @@
         templateElement.remove();
         return;
       } // we use append for html objects to maintain js events
+
 
       this.setElementContent(templateElement, content);
     }
@@ -5667,6 +5687,7 @@
 
       return attachment;
     } // Private
+
 
     _initializeOnDelegatedTarget(event, context) {
       return context || this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
@@ -5727,8 +5748,7 @@
           }
         }
       };
-      return {
-        ...defaultBsPopperConfig,
+      return { ...defaultBsPopperConfig,
         ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
       };
     }
@@ -5764,8 +5784,7 @@
       EventHandler.on(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
 
       if (this._config.selector) {
-        this._config = {
-          ...this._config,
+        this._config = { ...this._config,
           trigger: 'manual',
           selector: ''
         };
@@ -5860,8 +5879,7 @@
           delete dataAttributes[dataAttr];
         }
       });
-      config = {
-        ...this.constructor.Default,
+      config = { ...this.constructor.Default,
         ...dataAttributes,
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -5899,9 +5917,9 @@
           config[key] = this._config[key];
         }
       } // In the future can be replaced with:
-
       // const keysWithDifferentValues = Object.entries(this._config).filter(entry => this.constructor.Default[entry[0]] !== this._config[entry[0]])
       // `Object.fromEntries(keysWithDifferentValues)`
+
 
       return config;
     }
@@ -5936,6 +5954,7 @@
       this._addAttachmentClass(this._getAttachment(state.placement));
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Tooltip.getOrCreateInstance(this, config);
@@ -5949,6 +5968,7 @@
         }
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
@@ -5956,6 +5976,7 @@
    * ------------------------------------------------------------------------
    * add .Tooltip to jQuery only if jQuery is present
    */
+
 
   defineJQueryPlugin(Tooltip);
 
@@ -5975,16 +5996,14 @@
   const DATA_KEY$3 = 'bs.popover';
   const EVENT_KEY$3 = `.${DATA_KEY$3}`;
   const CLASS_PREFIX = 'bs-popover';
-  const Default$2 = {
-    ...Tooltip.Default,
+  const Default$2 = { ...Tooltip.Default,
     placement: 'right',
     offset: [0, 8],
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>'
   };
-  const DefaultType$2 = {
-    ...Tooltip.DefaultType,
+  const DefaultType$2 = { ...Tooltip.DefaultType,
     content: '(string|element|function)'
   };
   const Event$1 = {
@@ -6008,7 +6027,6 @@
    */
 
   class Popover extends Tooltip {
-
     // Getters
     static get Default() {
       return Default$2;
@@ -6026,6 +6044,7 @@
       return DefaultType$2;
     } // Overrides
 
+
     isWithContent() {
       return this.getTitle() || this._getContent();
     }
@@ -6036,6 +6055,7 @@
       this._sanitizeAndSetContent(tip, this._getContent(), SELECTOR_CONTENT);
     } // Private
 
+
     _getContent() {
       return this._resolvePossibleFunction(this._config.content);
     }
@@ -6043,6 +6063,7 @@
     _getBasicClassPrefix() {
       return CLASS_PREFIX;
     } // Static
+
 
     static jQueryInterface(config) {
       return this.each(function () {
@@ -6057,6 +6078,7 @@
         }
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
@@ -6064,6 +6086,7 @@
    * ------------------------------------------------------------------------
    * add .Popover to jQuery only if jQuery is present
    */
+
 
   defineJQueryPlugin(Popover);
 
@@ -6129,6 +6152,7 @@
       this._process();
     } // Getters
 
+
     static get Default() {
       return Default$1;
     }
@@ -6136,6 +6160,7 @@
     static get NAME() {
       return NAME$2;
     } // Public
+
 
     refresh() {
       const autoMethod = this._scrollElement === this._scrollElement.window ? METHOD_OFFSET : METHOD_POSITION;
@@ -6170,9 +6195,9 @@
       super.dispose();
     } // Private
 
+
     _getConfig(config) {
-      config = {
-        ...Default$1,
+      config = { ...Default$1,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -6244,7 +6269,6 @@
         SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, link.closest(SELECTOR_DROPDOWN$1)).classList.add(CLASS_NAME_ACTIVE$1);
       } else {
         SelectorEngine.parents(link, SELECTOR_NAV_LIST_GROUP$1).forEach(listGroup => {
-
           // Set triggered links parents as active
           // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
           SelectorEngine.prev(listGroup, `${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`).forEach(item => item.classList.add(CLASS_NAME_ACTIVE$1)); // Handle special case when .nav-link is inside .nav-item
@@ -6264,6 +6288,7 @@
       SelectorEngine.find(SELECTOR_LINK_ITEMS, this._config.target).filter(node => node.classList.contains(CLASS_NAME_ACTIVE$1)).forEach(node => node.classList.remove(CLASS_NAME_ACTIVE$1));
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const data = ScrollSpy.getOrCreateInstance(this, config);
@@ -6279,12 +6304,14 @@
         data[config]();
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
     SelectorEngine.find(SELECTOR_DATA_SPY).forEach(spy => new ScrollSpy(spy));
@@ -6337,11 +6364,11 @@
    */
 
   class Tab extends BaseComponent {
-
     // Getters
     static get NAME() {
       return NAME$1;
     } // Public
+
 
     show() {
       if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && this._element.classList.contains(CLASS_NAME_ACTIVE)) {
@@ -6387,6 +6414,7 @@
         complete();
       }
     } // Private
+
 
     _activate(element, container, callback) {
       const activeElements = container && (container.nodeName === 'UL' || container.nodeName === 'OL') ? SelectorEngine.find(SELECTOR_ACTIVE_UL, container) : SelectorEngine.children(container, SELECTOR_ACTIVE);
@@ -6451,6 +6479,7 @@
       }
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Tab.getOrCreateInstance(this);
@@ -6464,12 +6493,14 @@
         }
       });
     }
+
   }
   /**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */
+
 
   EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
     if (['A', 'AREA'].includes(this.tagName)) {
@@ -6547,6 +6578,7 @@
       this._setListeners();
     } // Getters
 
+
     static get DefaultType() {
       return DefaultType;
     }
@@ -6558,6 +6590,7 @@
     static get NAME() {
       return NAME;
     } // Public
+
 
     show() {
       const showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
@@ -6582,6 +6615,7 @@
 
       this._element.classList.remove(CLASS_NAME_HIDE); // @deprecated
 
+
       reflow(this._element);
 
       this._element.classList.add(CLASS_NAME_SHOW);
@@ -6605,6 +6639,7 @@
       const complete = () => {
         this._element.classList.add(CLASS_NAME_HIDE); // @deprecated
 
+
         this._element.classList.remove(CLASS_NAME_SHOWING);
 
         this._element.classList.remove(CLASS_NAME_SHOW);
@@ -6627,9 +6662,9 @@
       super.dispose();
     } // Private
 
+
     _getConfig(config) {
-      config = {
-        ...Default,
+      config = { ...Default,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -6691,6 +6726,7 @@
       this._timeout = null;
     } // Static
 
+
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Toast.getOrCreateInstance(this, config);
@@ -6704,6 +6740,7 @@
         }
       });
     }
+
   }
 
   enableDismissTrigger(Toast);
@@ -6738,6 +6775,6 @@
   };
 
   return index_umd;
-})));
 
+})));
 //# sourceMappingURL=bootstrap.bundle.js.map

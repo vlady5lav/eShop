@@ -1,11 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
-
 using Infrastructure.Identity;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions;
 

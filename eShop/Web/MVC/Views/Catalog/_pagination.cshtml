@@ -5,12 +5,12 @@
         <article class="esh-pager-wrapper row">
             <nav>
                 <a class="esh-pager-item esh-pager-item--navigable @Model.Previous"
-                    id="Previous"
-                    asp-controller="Catalog"
-                    asp-action="Index"
-                    asp-route-page="@(Model.ActualPage -1)"
-                    asp-route-itemsPage="@(Model.ItemsPerPage)"
-                    aria-label="Previous">
+                   id="Previous"
+                   asp-controller="Catalog"
+                   asp-action="Index"
+                   asp-route-page="@(Model.ActualPage -1)"
+                   asp-route-itemsPage="@(Model.ItemsPerPage)"
+                   aria-label="Previous">
                     Previous
                 </a>
 
@@ -19,12 +19,12 @@
                 </span>
 
                 <a class="esh-pager-item esh-pager-item--navigable @Model.Next"
-                    id="Next"
-                    asp-controller="Catalog"
-                    asp-action="Index"
-                    asp-route-page="@(Model.ActualPage + 1)"
-                    asp-route-itemsPage="@(Model.ItemsPerPage)"
-                    aria-label="Next">
+                   id="Next"
+                   asp-controller="Catalog"
+                   asp-action="Index"
+                   asp-route-page="@(Model.ActualPage + 1)"
+                   asp-route-itemsPage="@(Model.ItemsPerPage)"
+                   aria-label="Next">
                     Next
                 </a>
             </nav>

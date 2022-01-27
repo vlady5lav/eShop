@@ -1,4 +1,4 @@
-﻿# eShop
+# eShop
 
 ## Create our own Docker bridge network
 ```

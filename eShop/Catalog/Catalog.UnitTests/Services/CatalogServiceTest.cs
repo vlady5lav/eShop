@@ -1,3 +1,5 @@
+using Catalog.Host.Models.Enums;
+
 namespace Catalog.UnitTests.Services;
 
 public class CatalogServiceTest
@@ -158,8 +160,8 @@ public class CatalogServiceTest
         // arrange
         var testPageIndex = 1000;
         var testPageSize = 10000;
-        int? brandFilter = null;
-        int? typeFilter = null;
+        var brandFilter = 2;
+        var typeFilter = 2;
 
         _catalogItemRepository
             .Setup(
@@ -172,7 +174,7 @@ public class CatalogServiceTest
             .Returns((Func<PaginatedItems<CatalogItem>>)null!);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex);
+        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, new Dictionary<CatalogTypeFilter, int>() { { CatalogTypeFilter.Brand, 2 }, { CatalogTypeFilter.Type, 2 } });
 
         // assert
         result.Should().BeNull();
@@ -185,8 +187,8 @@ public class CatalogServiceTest
         var testPageIndex = 0;
         var testPageSize = 4;
         var testTotalCount = 12;
-        int? brandFilter = null;
-        int? typeFilter = null;
+        var brandFilter = 2;
+        var typeFilter = 2;
 
         var catalogItemSuccess = new CatalogItem() { Id = 0, Name = "Product", };
 
@@ -216,7 +218,7 @@ public class CatalogServiceTest
             .Returns(catalogItemDtoSuccess);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex);
+        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, new Dictionary<CatalogTypeFilter, int>() { { CatalogTypeFilter.Brand, 2 }, { CatalogTypeFilter.Type, 2 } });
 
         // assert
         result.Should().NotBeNull();

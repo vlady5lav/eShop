@@ -9,8 +9,13 @@ global using System.Security.Principal;
 global using System.Text;
 global using System.Threading.Tasks;
 
+global using IdentityModel.Client;
+
+global using Infrastructure.Extensions;
+
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
+global using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Hosting;
@@ -25,3 +30,5 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 
 global using MVC;
+
+global using Newtonsoft.Json;

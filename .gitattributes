@@ -1,4 +1,4 @@
-﻿###############################################################################
+###############################################################################
 # Git Line Endings
 ###############################################################################
 
@@ -6,7 +6,79 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 
-* text=auto
+* text=auto eol=lf
+
+###############################################################################
+# Force development files to always use LF line endings.
+###############################################################################
+
+*.cake text eol=lf
+*.cjs text eol=lf
+*.cjsx text eol=lf
+*.cs text eol=lf
+*.css text eol=lf
+*.cssx text eol=lf
+*.csx text eol=lf
+*.cts text eol=lf
+*.ctsx text eol=lf
+*.default text eol=lf
+*.defaults text eol=lf
+*.htm text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.jsm text eol=lf
+*.json text eol=lf
+*.json5 text eol=lf
+*.jsx text eol=lf
+*.less text eol=lf
+*.manifest text eol=lf
+*.mjs text eol=lf
+*.mjsx text eol=lf
+*.mts text eol=lf
+*.mtsx text eol=lf
+*.pcss text eol=lf
+*.sass text eol=lf
+*.scss text eol=lf
+*.svg text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.vb text eol=lf
+*.vbx text eol=lf
+*.vue text eol=lf
+*.webmanifest text eol=lf
+*.xaml text eol=lf
+*.xhtm text eol=lf
+*.xhtml text eol=lf
+*.xml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.dockerignore text eol=lf
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+Dockerfile text eol=lf
+Makefile text eol=lf
+
+###############################################################################
+# Force ASP.NET Web files to always use CRLF line endings.
+###############################################################################
+
+*.asp text eol=crlf
+*.aspx text eol=crlf
+*.cshtm text eol=crlf
+*.cshtml text eol=crlf
+
+###############################################################################
+# Force Visual Studio files to always use CRLF line endings.
+###############################################################################
+
+*.csproj text eol=crlf
+*.proj text eol=crlf
+*.projitems text eol=crlf
+*.shproj text eol=crlf
+*.sln text eol=crlf
+*.vbproj text eol=crlf
+*.vcxproj text eol=crlf
 
 ###############################################################################
 # Force windows batch scripts to always use CRLF line endings so that if a repo

@@ -1,4 +1,4 @@
-.esh-identity {
+﻿.esh-identity {
   line-height: 3rem;
   position: relative;
   text-align: right;
@@ -51,7 +51,8 @@
   transition: color 0.35s;
 }
 
-  .esh-identity-item:hover {
-    color: #75b918;
-    transition: color 0.35s;
-  }
+.esh-identity-item:hover {
+  color: #75b918;
+  transition: color 0.35s;
+}
+

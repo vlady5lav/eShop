@@ -1,4 +1,4 @@
-.esh-header {
+﻿.esh-header {
   background-color: #00A69C;
   height: 4rem;
 }
@@ -11,7 +11,8 @@
   transition: color 0.35s;
 }
 
-  .esh-header-back:hover {
-    color: #FFFFFF;
-    transition: color 0.35s;
-  }
+.esh-header-back:hover {
+  color: #FFFFFF;
+  transition: color 0.35s;
+}
+
