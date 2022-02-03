@@ -87,8 +87,23 @@ namespace IdentityServer
 
                     AllowedScopes =
                     {
-                        "mvc"
-                    }
+                        "mvc",
+                    },
+                },
+                new Client
+                {
+                    ClientId = "mvcswaggerui",
+                    ClientName = "MVC Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["MvcApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["MvcApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "mvc", "catalog.catalogbff", "catalog.catalogbrand", "catalog.catalogitem", "catalog.catalogtype",
+                    },
                 },
             };
         }

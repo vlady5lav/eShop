@@ -5,13 +5,12 @@ using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services;
 using Catalog.Host.Services.Interfaces;
 
-using Microsoft.OpenApi.Models;
-
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
+builder.Services
+    .AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
 builder.Services.AddSwaggerGen(options =>
@@ -71,13 +70,17 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsq
 
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 
-builder.Services.AddCors(options => options.AddPolicy(
+builder.Services.AddCors(
+    options => options
+    .AddPolicy(
         "CorsPolicy",
         builder => builder
             .SetIsOriginAllowed((host) => true)
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()));
+
+builder.Services.AddRateLimit(configuration);
 
 var app = builder.Build();
 
@@ -95,6 +98,8 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRateLimit();
 
 app.UseEndpoints(endpoints =>
 {

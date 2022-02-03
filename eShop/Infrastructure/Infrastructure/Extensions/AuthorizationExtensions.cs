@@ -24,7 +24,7 @@ public static class AuthorizationExtensions
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = false
+                    ValidateAudience = false,
                 };
             });
         services.AddAuthorization(options =>

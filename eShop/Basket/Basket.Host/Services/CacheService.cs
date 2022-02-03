@@ -1,77 +1,77 @@
 using Basket.Host.Configurations;
 using Basket.Host.Services.Interfaces;
 
-using StackExchange.Redis;
+namespace Basket.Host.Services;
 
-namespace Basket.Host.Services
+public class CacheService : ICacheService
 {
-    public class CacheService : ICacheService
+    private readonly RedisConfig _config;
+
+    private readonly IJsonSerializer _jsonSerializer;
+
+    private readonly ILogger<CacheService> _logger;
+
+    private readonly IRedisCacheConnectionService _redisCacheConnectionService;
+
+    public CacheService(
+        ILogger<CacheService> logger,
+        IRedisCacheConnectionService redisCacheConnectionService,
+        IOptions<RedisConfig> config,
+        IJsonSerializer jsonSerializer)
     {
-        private readonly RedisConfig _config;
+        _logger = logger;
+        _redisCacheConnectionService = redisCacheConnectionService;
+        _jsonSerializer = jsonSerializer;
+        _config = config.Value;
+    }
 
-        private readonly IJsonSerializer _jsonSerializer;
+    public Task AddOrUpdateAsync<T>(string key, T value)
+    {
+        return AddOrUpdateInternalAsync(key, value);
+    }
 
-        private readonly ILogger<CacheService> _logger;
+    public async Task<T> GetAsync<T>(string key)
+    {
+        var redis = GetRedisDatabase();
 
-        private readonly IRedisCacheConnectionService _redisCacheConnectionService;
+        var cacheKey = GetItemCacheKey(key);
 
-        public CacheService(
-            ILogger<CacheService> logger,
-            IRedisCacheConnectionService redisCacheConnectionService,
-            IOptions<RedisConfig> config,
-            IJsonSerializer jsonSerializer)
+        var serialized = await redis.StringGetAsync(cacheKey);
+
+        return serialized.HasValue ?
+            _jsonSerializer.Deserialize<T>(serialized.ToString())
+            : default!;
+    }
+
+    private async Task AddOrUpdateInternalAsync<T>(
+        string key,
+        T value,
+        IDatabase redis = null!,
+        TimeSpan? expiry = null)
+    {
+        redis ??= GetRedisDatabase();
+        expiry ??= _config.CacheTimeout;
+
+        var cacheKey = GetItemCacheKey(key);
+        var serialized = _jsonSerializer.Serialize(value);
+
+        if (await redis.StringSetAsync(cacheKey, serialized, expiry))
         {
-            _logger = logger;
-            _redisCacheConnectionService = redisCacheConnectionService;
-            _jsonSerializer = jsonSerializer;
-            _config = config.Value;
+            _logger.LogInformation($"Cached value for key {key} cached");
         }
-
-        public Task AddOrUpdateAsync<T>(string key, T value)
+        else
         {
-            return AddOrUpdateInternalAsync(key, value);
+            _logger.LogInformation($"Cached value for key {key} updated");
         }
+    }
 
-        public async Task<T> GetAsync<T>(string key)
-        {
-            var redis = GetRedisDatabase();
+    private string GetItemCacheKey(string userId)
+    {
+        return $"{userId}";
+    }
 
-            var cacheKey = GetItemCacheKey(key);
-
-            var serialized = await redis.StringGetAsync(cacheKey);
-
-            return serialized.HasValue ?
-                _jsonSerializer.Deserialize<T>(serialized.ToString())
-                : default(T)!;
-        }
-
-        private async Task AddOrUpdateInternalAsync<T>(string key, T value,
-            IDatabase redis = null!, TimeSpan? expiry = null)
-        {
-            redis = redis ?? GetRedisDatabase();
-            expiry = expiry ?? _config.CacheTimeout;
-
-            var cacheKey = GetItemCacheKey(key);
-            var serialized = _jsonSerializer.Serialize(value);
-
-            if (await redis.StringSetAsync(cacheKey, serialized, expiry))
-            {
-                _logger.LogInformation($"Cached value for key {key} cached");
-            }
-            else
-            {
-                _logger.LogInformation($"Cached value for key {key} updated");
-            }
-        }
-
-        private string GetItemCacheKey(string userId)
-        {
-            return $"{userId}";
-        }
-
-        private IDatabase GetRedisDatabase()
-        {
-            return _redisCacheConnectionService.Connection.GetDatabase();
-        }
+    private IDatabase GetRedisDatabase()
+    {
+        return _redisCacheConnectionService.Connection.GetDatabase();
     }
 }

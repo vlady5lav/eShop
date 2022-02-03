@@ -20,7 +20,7 @@ public class CatalogService : ICatalogService
         _logger = logger;
     }
 
-    public async Task<IEnumerable<SelectListItem>> GetBrands()
+    public async Task<IEnumerable<SelectListItem>> GetBrandsAsync()
     {
         var list = new List<SelectListItem> { new SelectListItem() { Text = "All" }, };
 
@@ -42,7 +42,7 @@ public class CatalogService : ICatalogService
         return list;
     }
 
-    public async Task<Catalog> GetCatalogItems(int page, int take, int? brand, int? type)
+    public async Task<Catalog> GetCatalogItemsAsync(int page, int take, int? brand, int? type)
     {
         var filters = new Dictionary<CatalogTypeFilter, int>();
 
@@ -69,7 +69,7 @@ public class CatalogService : ICatalogService
         return result ?? new Catalog() { Count = 0, Data = new List<CatalogItem>(), PageSize = 0, PageIndex = 0 };
     }
 
-    public async Task<IEnumerable<SelectListItem>> GetTypes()
+    public async Task<IEnumerable<SelectListItem>> GetTypesAsync()
     {
         var list = new List<SelectListItem> { new SelectListItem() { Text = "All" }, };
 

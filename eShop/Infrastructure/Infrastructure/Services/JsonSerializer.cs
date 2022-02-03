@@ -1,19 +1,16 @@
 using Infrastructure.Services.Interfaces;
 
-using Newtonsoft.Json;
+namespace Infrastructure.Services;
 
-namespace Infrastructure.Services
+public class JsonSerializer : IJsonSerializer
 {
-    public class JsonSerializer : IJsonSerializer
+    public T Deserialize<T>(string value)
     {
-        public T Deserialize<T>(string value)
-        {
-            return JsonConvert.DeserializeObject<T>(value)!;
-        }
+        return JsonConvert.DeserializeObject<T>(value)!;
+    }
 
-        public string Serialize<T>(T data)
-        {
-            return JsonConvert.SerializeObject(data);
-        }
+    public string Serialize<T>(T data)
+    {
+        return JsonConvert.SerializeObject(data);
     }
 }

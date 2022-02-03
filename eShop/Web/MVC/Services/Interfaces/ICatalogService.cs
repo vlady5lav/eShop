@@ -4,9 +4,9 @@ namespace MVC.Services.Interfaces;
 
 public interface ICatalogService
 {
-    Task<IEnumerable<SelectListItem>> GetBrands();
+    Task<IEnumerable<SelectListItem>> GetBrandsAsync();
 
-    Task<Catalog> GetCatalogItems(int page, int take, int? brand, int? type);
+    Task<Catalog> GetCatalogItemsAsync(int page, int take, int? brand, int? type);
 
-    Task<IEnumerable<SelectListItem>> GetTypes();
+    Task<IEnumerable<SelectListItem>> GetTypesAsync();
 }

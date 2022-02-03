@@ -1,7 +1,6 @@
-using Basket.Host.Configurations;
-using Basket.Host.Services.Interfaces;
+using Infrastructure.RateLimit.Services.Interfaces;
 
-namespace Basket.Host.Services;
+namespace Infrastructure.RateLimit.Services;
 
 public class RedisCacheConnectionService : IRedisCacheConnectionService, IDisposable
 {
@@ -10,9 +9,9 @@ public class RedisCacheConnectionService : IRedisCacheConnectionService, IDispos
     private bool _disposed;
 
     public RedisCacheConnectionService(
-        IOptions<RedisConfig> config)
+        IOptions<RateLimitConfig> config)
     {
-        var redisConfigurationOptions = ConfigurationOptions.Parse(config.Value.Host);
+        var redisConfigurationOptions = ConfigurationOptions.Parse(config.Value.RedisHost);
         _connectionLazy =
             new Lazy<ConnectionMultiplexer>(()
                 => ConnectionMultiplexer.Connect(redisConfigurationOptions));

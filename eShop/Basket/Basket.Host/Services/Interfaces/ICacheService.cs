@@ -1,9 +1,8 @@
-namespace Basket.Host.Services.Interfaces
-{
-    public interface ICacheService
-    {
-        Task AddOrUpdateAsync<T>(string key, T value);
+namespace Basket.Host.Services.Interfaces;
 
-        Task<T> GetAsync<T>(string key);
-    }
+public interface ICacheService
+{
+    Task AddOrUpdateAsync<T>(string key, T value);
+
+    Task<T> GetAsync<T>(string key);
 }

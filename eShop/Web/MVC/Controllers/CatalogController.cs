@@ -18,7 +18,7 @@ public class CatalogController : Controller
         page ??= 0;
         itemsPage ??= 9;
 
-        var catalog = await _catalogService.GetCatalogItems(page.Value, itemsPage.Value, brandFilterApplied, typesFilterApplied);
+        var catalog = await _catalogService.GetCatalogItemsAsync(page.Value, itemsPage.Value, brandFilterApplied, typesFilterApplied);
 
         if (catalog == null)
         {
@@ -36,8 +36,8 @@ public class CatalogController : Controller
         var vm = new IndexViewModel()
         {
             CatalogItems = catalog.Data,
-            Brands = await _catalogService.GetBrands(),
-            Types = await _catalogService.GetTypes(),
+            Brands = await _catalogService.GetBrandsAsync(),
+            Types = await _catalogService.GetTypesAsync(),
             PaginationInfo = info,
         };
 

@@ -12,6 +12,7 @@ global using System.Threading.Tasks;
 global using IdentityModel.Client;
 
 global using Infrastructure.Extensions;
+global using Infrastructure.Filters;
 
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
@@ -28,6 +29,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
+global using Microsoft.OpenApi.Models;
 
 global using MVC;
 

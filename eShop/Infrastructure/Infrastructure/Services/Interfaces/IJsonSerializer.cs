@@ -1,9 +1,8 @@
-namespace Infrastructure.Services.Interfaces
-{
-    public interface IJsonSerializer
-    {
-        T Deserialize<T>(string value);
+namespace Infrastructure.Services.Interfaces;
 
-        string Serialize<T>(T data);
-    }
+public interface IJsonSerializer
+{
+    T Deserialize<T>(string value);
+
+    string Serialize<T>(T data);
 }

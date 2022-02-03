@@ -2,19 +2,12 @@ using Basket.Host.Configurations;
 using Basket.Host.Services;
 using Basket.Host.Services.Interfaces;
 
-using Infrastructure.Extensions;
-using Infrastructure.Filters;
-
-using Microsoft.OpenApi.Models;
-
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-    })
+builder.Services
+    .AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
 builder.Services.AddSwaggerGen(options =>
@@ -23,10 +16,11 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "eShop - Basket HTTP API",
         Version = "v1",
-        Description = "The Basket Service HTTP API"
+        Description = "The Basket Service HTTP API",
     });
 
     var authority = configuration["Authorization:Authority"];
+
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -39,17 +33,17 @@ builder.Services.AddSwaggerGen(options =>
                 Scopes = new Dictionary<string, string>()
                 {
                     { "mvc", "website" },
-                }
-            }
-        }
+                },
+            },
+        },
     });
 
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
 
 builder.AddConfiguration();
-builder.Services.Configure<RedisConfig>(
-    builder.Configuration.GetSection("Redis"));
+
+builder.Services.Configure<RedisConfig>(builder.Configuration.GetSection("Redis"));
 
 builder.Services.AddAuthorization(configuration);
 
@@ -58,16 +52,13 @@ builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnection
 builder.Services.AddTransient<ICacheService, CacheService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
+builder.Services.AddCors(options => options.AddPolicy(
         "CorsPolicy",
         builder => builder
             .SetIsOriginAllowed((host) => true)
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials());
-});
+            .AllowCredentials()));
 
 var app = builder.Build();
 
@@ -80,6 +71,7 @@ app.UseSwagger()
     });
 
 app.UseRouting();
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();

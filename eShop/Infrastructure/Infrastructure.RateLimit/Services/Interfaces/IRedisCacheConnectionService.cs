@@ -1,4 +1,4 @@
-namespace Basket.Host.Services.Interfaces;
+namespace Infrastructure.RateLimit.Services.Interfaces;
 
 public interface IRedisCacheConnectionService
 {
