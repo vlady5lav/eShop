@@ -61,6 +61,7 @@ services:
       - ASPNETCORE_URLS=http://+:5002
       - MvcUrl=http://www.alevelwebsite.com
       - CatalogApi=http://www.alevelwebsite.com:5000
+      - BasketApi=http://www.alevelwebsite.com:5003
     depends_on:
       - nginx
       - postgres
@@ -90,6 +91,42 @@ services:
       - identityserver
     ports:
       - "5001:5001"
+
+  redis:
+    image: redis
+    container_name: lde.redis
+    depends_on:
+      - nginx
+      - postgres
+      - pgadmin4
+      - catalog.api
+      - identityserver
+      - web.mvc
+    ports:
+      - "6380:6379"
+
+  basket.api:
+    container_name: lde.basket.api
+    build:
+      context: .
+      dockerfile: Basket/Basket.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5003
+      - Authorization__Authority=http://www.alevelwebsite.com:5002
+      - Redis__Host=www.alevelwebsite.com:6380
+      - Redis__CacheTimeout=00:00:10
+      - PathBase=http://www.alevelwebsite.com:5003
+    depends_on:
+      - nginx
+      - postgres
+      - pgadmin4
+      - catalog.api
+      - identityserver
+      - web.mvc
+      - redis
+    ports:
+      - "5003:5003"
 
 networks:
 

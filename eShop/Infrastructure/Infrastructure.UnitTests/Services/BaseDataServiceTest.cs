@@ -29,7 +29,14 @@ public class BaseDataServiceTest
         // arrange
 
         // act
-        await _mockService.RunWithException();
+        try
+        {
+            await _mockService.RunWithException();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
 
         // assert
         _dbContextTransaction.Verify(t => t.CommitAsync(CancellationToken.None), Times.Never);

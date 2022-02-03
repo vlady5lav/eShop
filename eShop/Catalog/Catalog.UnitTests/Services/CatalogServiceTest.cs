@@ -162,6 +162,7 @@ public class CatalogServiceTest
         var testPageSize = 10000;
         var brandFilter = 2;
         var typeFilter = 2;
+        PaginatedItems<CatalogItem> item = null!;
 
         _catalogItemRepository
             .Setup(
@@ -171,7 +172,7 @@ public class CatalogServiceTest
                         It.Is<int>(i => i == testPageIndex),
                         It.Is<int>(i => i == brandFilter),
                         It.Is<int>(i => i == typeFilter)))
-            .Returns((Func<PaginatedItems<CatalogItem>>)null!);
+            .ReturnsAsync(item);
 
         // act
         var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, new Dictionary<CatalogTypeFilter, int>() { { CatalogTypeFilter.Brand, 2 }, { CatalogTypeFilter.Type, 2 } });
