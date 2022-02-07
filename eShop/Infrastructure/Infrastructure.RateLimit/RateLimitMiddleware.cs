@@ -20,7 +20,9 @@ public class RateLimitMiddleware
         {
             context.Response.ContentType = Error.ContentType;
             context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
             await context.Response.WriteAsync(JsonConvert.SerializeObject(Error.LimitExceededProblemDetails));
+
             return;
         }
 

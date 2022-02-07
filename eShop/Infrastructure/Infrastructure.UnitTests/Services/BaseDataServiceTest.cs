@@ -18,7 +18,10 @@ public class BaseDataServiceTest
         _dbContextWrapper = new Mock<IDbContextWrapper<MockDbContext>>();
         _logger = new Mock<ILogger<MockService>>();
 
-        _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(_dbContextTransaction.Object);
+        _dbContextWrapper.Setup(
+            s => s
+            .BeginTransactionAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_dbContextTransaction.Object);
 
         _mockService = new MockService(_dbContextWrapper.Object, _logger.Object);
     }
@@ -29,14 +32,7 @@ public class BaseDataServiceTest
         // arrange
 
         // act
-        try
-        {
-            await _mockService.RunWithException();
-        }
-        catch (Exception)
-        {
-            // ignored
-        }
+        await _mockService.RunWithException();
 
         // assert
         _dbContextTransaction.Verify(t => t.CommitAsync(CancellationToken.None), Times.Never);

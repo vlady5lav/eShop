@@ -1,26 +1,32 @@
-using Basket.Host.Configurations;
-using Basket.Host.Services;
-using Basket.Host.Services.Interfaces;
+using Infrastructure.Extensions;
+using Infrastructure.Filters;
+
+using Microsoft.OpenApi.Models;
+
+using Order.Host.Configurations;
+using Order.Host.Services;
+using Order.Host.Services.Interfaces;
 
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddControllers(options => options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+    })
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "eShop - Basket HTTP API",
+        Title = "eShop - Order HTTP API",
         Version = "v1",
-        Description = "The Basket Service HTTP API",
+        Description = "The Order Service HTTP API"
     });
 
     var authority = configuration["Authorization:Authority"];
-
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -33,50 +39,49 @@ builder.Services.AddSwaggerGen(options =>
                 Scopes = new Dictionary<string, string>()
                 {
                     { "mvc", "website" },
-                },
-            },
-        },
+                }
+            }
+        }
     });
 
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
 
 builder.AddConfiguration();
-
-builder.Services.Configure<RedisConfig>(builder.Configuration.GetSection("Redis"));
-
 builder.Services.Configure<RabbitMQConfig>(
     builder.Configuration.GetSection("RabbitMQ"));
 
-builder.Services.AddSingleton(RabbitHutch.CreateBus(configuration["RabbitMQ:ConnectionString"]));
+var rabbitHost = configuration["RabbitMQ:ConnectionString"];
+
+builder.Services.AddSingleton(RabbitHutch.CreateBus(rabbitHost));
 
 builder.Services.AddAuthorization(configuration);
 
 builder.Services.AddTransient<IJsonSerializer, Infrastructure.Services.JsonSerializer>();
-builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
-builder.Services.AddTransient<ICacheService, CacheService>();
-builder.Services.AddTransient<IBasketService, BasketService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
-builder.Services.AddCors(options => options.AddPolicy(
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
         "CorsPolicy",
         builder => builder
             .SetIsOriginAllowed((host) => true)
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials()));
+            .AllowCredentials());
+});
 
 var app = builder.Build();
 
 app.UseSwagger()
     .UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"{configuration["PathBase"]}/swagger/v1/swagger.json", "Basket.API V1");
-        setup.OAuthClientId("basketswaggerui");
-        setup.OAuthAppName("Basket Swagger UI");
+        setup.SwaggerEndpoint($"{configuration["PathBase"]}/swagger/v1/swagger.json", "Order.API V1");
+        setup.OAuthClientId("orderswaggerui");
+        setup.OAuthAppName("Order Swagger UI");
     });
 
 app.UseRouting();
-
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
@@ -87,8 +92,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapDefaultControllerRoute();
     endpoints.MapControllers();
 });
-
-app.UseSubscribe("Basket", Assembly.GetExecutingAssembly());
 
 app.Run();
 

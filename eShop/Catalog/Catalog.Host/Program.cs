@@ -66,7 +66,8 @@ builder.Services.AddTransient<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<ICatalogTypeService, CatalogTypeService>();
 
-builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
+builder.Services.AddDbContextFactory<ApplicationDbContext>(
+    opts => opts.UseNpgsql(configuration["ConnectionString"]));
 
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 
@@ -137,7 +138,7 @@ void CreateDbIfNotExists(IHost host)
         {
             var logger = services.GetRequiredService<ILogger<Program>>();
 
-            logger.LogError(ex, "an error occurred while creating the database");
+            logger.LogError(ex, "An error occurred while creating the database");
         }
     }
 }

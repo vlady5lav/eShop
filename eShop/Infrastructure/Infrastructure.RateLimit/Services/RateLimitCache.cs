@@ -23,6 +23,7 @@ internal class RateLimitCache : IRateLimitCache
         if (!await redis.KeyExistsAsync(key))
         {
             await redis.StringSetAsync(key, INITVALUE, _config.CacheTimeout);
+
             return INITVALUE;
         }
 
