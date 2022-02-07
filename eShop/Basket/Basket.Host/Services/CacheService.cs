@@ -43,6 +43,15 @@ public class CacheService : ICacheService
             : default!;
     }
 
+    public async Task RemoveAsync(string key)
+    {
+        var redis = GetRedisDatabase();
+
+        var cacheKey = GetItemCacheKey(key);
+
+        await redis.KeyDeleteAsync(cacheKey);
+    }
+
     private async Task AddOrUpdateInternalAsync<T>(
         string key,
         T value,

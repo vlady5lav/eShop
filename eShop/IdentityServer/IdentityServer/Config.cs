@@ -92,6 +92,21 @@ namespace IdentityServer
                 },
                 new Client
                 {
+                    ClientId = "orderswaggerui",
+                    ClientName = "Order Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "mvc",
+                    },
+                },
+                new Client
+                {
                     ClientId = "mvcswaggerui",
                     ClientName = "MVC Swagger UI",
                     AllowedGrantTypes = GrantTypes.Implicit,

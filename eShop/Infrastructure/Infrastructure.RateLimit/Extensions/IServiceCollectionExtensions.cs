@@ -11,6 +11,7 @@ public static class IServiceCollectionExtensions
         services.AddSingleton<IRateLimitService, RateLimitService>();
         services.AddSingleton<IRateLimitCache, RateLimitCache>();
         services.AddSingleton<IRedisCacheConnectionService, RedisCacheConnectionService>();
+
         return services;
     }
 }
