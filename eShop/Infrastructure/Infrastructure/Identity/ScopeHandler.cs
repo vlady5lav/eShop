@@ -5,11 +5,13 @@ public class ScopeHandler : AuthorizationHandler<ScopeRequirement>
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ScopeRequirement requirement)
     {
         var targetScope = GetTargetScope(context);
+
         if (targetScope != null)
         {
             var scopes = context.User
                 .FindAll(c => c.Type == "scope")
                 .SelectMany(x => x.Value.Split(' '));
+
             if (scopes.Contains(targetScope))
             {
                 context.Succeed(requirement);
@@ -28,6 +30,7 @@ public class ScopeHandler : AuthorizationHandler<ScopeRequirement>
         var httpContext = (HttpContext)context.Resource!;
 
         var routeEndpoint = httpContext.GetEndpoint();
+
         var descriptor = routeEndpoint?.Metadata
             .OfType<ControllerActionDescriptor>()
             .SingleOrDefault();
@@ -35,7 +38,7 @@ public class ScopeHandler : AuthorizationHandler<ScopeRequirement>
         if (descriptor != null)
         {
             var scopeAttribute = (ScopeAttribute?)descriptor.MethodInfo.GetCustomAttribute(typeof(ScopeAttribute))
-                                 ?? (ScopeAttribute?)descriptor.ControllerTypeInfo.GetCustomAttribute(typeof(ScopeAttribute));
+                                           ?? (ScopeAttribute?)descriptor.ControllerTypeInfo.GetCustomAttribute(typeof(ScopeAttribute));
 
             return scopeAttribute?.ScopeName;
         }

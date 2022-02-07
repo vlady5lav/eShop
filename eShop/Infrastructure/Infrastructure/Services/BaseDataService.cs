@@ -35,7 +35,8 @@ public abstract class BaseDataService<T>
         Func<CancellationToken, Task> action,
         CancellationToken cancellationToken = default)
     {
-        await using var transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
+        await using var transaction =
+            await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
 
         try
         {
@@ -46,6 +47,7 @@ public abstract class BaseDataService<T>
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
+
             _logger.LogError(ex, $"Transaction is rolled back");
         }
     }
@@ -54,7 +56,8 @@ public abstract class BaseDataService<T>
         Func<CancellationToken, Task<TResult>> action,
         CancellationToken cancellationToken = default)
     {
-        await using var transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
+        await using var transaction =
+            await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
 
         try
         {
@@ -67,7 +70,9 @@ public abstract class BaseDataService<T>
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
+
             _logger.LogError(ex, $"Transaction is rolled back");
+
             return default!;
         }
     }

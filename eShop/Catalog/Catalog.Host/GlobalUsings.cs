@@ -1,4 +1,5 @@
 global using System;
+global using System.ComponentModel.DataAnnotations;
 global using System.Net;
 global using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ global using Infrastructure;
 global using Infrastructure.Extensions;
 global using Infrastructure.Filters;
 global using Infrastructure.Identity;
-global using Infrastructure.RateLimit.Extensions;
 global using Infrastructure.Services;
 global using Infrastructure.Services.Interfaces;
 

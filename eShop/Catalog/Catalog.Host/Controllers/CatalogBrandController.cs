@@ -59,23 +59,6 @@ public class CatalogBrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> DeleteByTitle(string brand)
-    {
-        var result = await _catalogBrandService.DeleteByTitleAsync(brand);
-
-        if (result != null)
-        {
-            return NoContent();
-        }
-        else
-        {
-            return BadRequest();
-        }
-    }
-
-    [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Update(UpdateBrandRequest request)
     {
         var result = await _catalogBrandService.UpdateAsync(request.Id, request.Brand);

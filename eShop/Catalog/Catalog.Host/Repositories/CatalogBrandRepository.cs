@@ -47,24 +47,6 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         }
     }
 
-    public async Task<int?> DeleteByTitleAsync(string brand)
-    {
-        var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Brand == brand);
-
-        if (item != null)
-        {
-            _dbContext.CatalogBrands.Remove(item);
-
-            await _dbContext.SaveChangesAsync();
-
-            return item.Id;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public async Task<IEnumerable<CatalogBrand>?> GetBrandsAsync()
     {
         var result = await _dbContext.CatalogBrands.OrderBy(cb => cb.Brand).ToListAsync();
@@ -77,26 +59,6 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         var result = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
 
         return result;
-    }
-
-    public async Task<CatalogBrand?> GetByBrandTitleAsync(string brand)
-    {
-        var result = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Brand == brand);
-
-        return result;
-    }
-
-    public async Task<PaginatedItems<CatalogBrand>?> GetByPageAsync(int pageSize, int pageIndex)
-    {
-        var totalItems = await _dbContext.CatalogBrands.LongCountAsync();
-
-        var itemsOnPage = await _dbContext.CatalogBrands
-            .OrderBy(cb => cb.Brand)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return new PaginatedItems<CatalogBrand>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
     public async Task<int?> UpdateAsync(int id, string brand)

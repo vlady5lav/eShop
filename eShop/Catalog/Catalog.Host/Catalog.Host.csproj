@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Infrastructure.RateLimit\Infrastructure.RateLimit.csproj" />
   </ItemGroup>
 
 </Project>

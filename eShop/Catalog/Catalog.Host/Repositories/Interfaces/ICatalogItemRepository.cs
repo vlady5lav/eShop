@@ -11,21 +11,11 @@ public interface ICatalogItemRepository
     int availableStock,
     int catalogBrandId,
     int catalogTypeId,
-    string? description,
-    string? pictureFileName);
+    string? description = null,
+    string? pictureFileName = null);
 
     Task<int?> DeleteAsync(
         int id);
-
-    Task<PaginatedItems<CatalogItem>?> GetByBrandIdAsync(
-        int id,
-        int pageSize,
-        int pageIndex);
-
-    Task<PaginatedItems<CatalogItem>?> GetByBrandTitleAsync(
-        string brand,
-        int pageSize,
-        int pageIndex);
 
     Task<CatalogItem?> GetByIdAsync(
         int id);
@@ -36,25 +26,15 @@ public interface ICatalogItemRepository
         int? brandFilter,
         int? typeFilter);
 
-    Task<PaginatedItems<CatalogItem>?> GetByTypeIdAsync(
-        int id,
-        int pageSize,
-        int pageIndex);
-
-    Task<PaginatedItems<CatalogItem>?> GetByTypeTitleAsync(
-        string type,
-        int pageSize,
-        int pageIndex);
-
     Task<IEnumerable<CatalogItem>?> GetProductsAsync();
 
     Task<int?> UpdateAsync(
         int id,
-        string? name,
-        decimal? price,
-        int? availableStock,
-        int? catalogBrandId,
-        int? catalogTypeId,
-        string? description,
-        string? pictureFileName);
+        string? name = null,
+        decimal? price = null,
+        int? availableStock = null,
+        int? catalogBrandId = null,
+        int? catalogTypeId = null,
+        string? description = null,
+        string? pictureFileName = null);
 }

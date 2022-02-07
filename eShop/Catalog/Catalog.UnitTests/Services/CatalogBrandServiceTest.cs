@@ -96,38 +96,6 @@ public class CatalogBrandServiceTest
     }
 
     [Fact]
-    public async Task DeleteByTitleAsync_Failed()
-    {
-        // arrange
-        int? testResult = null;
-
-        _catalogBrandRepository
-            .Setup(s => s.DeleteByTitleAsync(It.Is<string>(i => i == _testItem.Brand)))
-            .ReturnsAsync(testResult);
-
-        // act
-        var result = await _catalogBrandService.DeleteByTitleAsync(_testItem.Brand);
-
-        // assert
-        result.Should().Be(testResult);
-    }
-
-    [Fact]
-    public async Task DeleteByTitleAsync_Success()
-    {
-        // arrange
-        _catalogBrandRepository
-            .Setup(s => s.DeleteByTitleAsync(It.Is<string>(i => i == _testItem.Brand)))
-            .ReturnsAsync(_testItem.Id);
-
-        // act
-        var result = await _catalogBrandService.DeleteByTitleAsync(_testItem.Brand);
-
-        // assert
-        result.Should().Be(_testItem.Id);
-    }
-
-    [Fact]
     public async Task UpdateAsync_Failed()
     {
         // arrange

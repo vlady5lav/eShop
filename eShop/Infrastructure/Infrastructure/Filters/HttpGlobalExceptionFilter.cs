@@ -23,6 +23,7 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
             };
 
             context.Result = new BadRequestObjectResult(problemDetails);
+
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
             context.ExceptionHandled = true;

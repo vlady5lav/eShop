@@ -1,6 +1,4 @@
-using Catalog.Host.Configurations;
 using Catalog.Host.Models.Dtos;
-using Catalog.Host.Models.Enums;
 using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Responses;
 using Catalog.Host.Services.Interfaces;
@@ -15,18 +13,14 @@ public class CatalogBffController : ControllerBase
 {
     private readonly ICatalogService _catalogService;
 
-    private readonly IOptions<CatalogConfig> _config;
-
     private readonly ILogger<CatalogBffController> _logger;
 
     public CatalogBffController(
         ILogger<CatalogBffController> logger,
-        ICatalogService catalogService,
-        IOptions<CatalogConfig> config)
+        ICatalogService catalogService)
     {
         _logger = logger;
         _catalogService = catalogService;
-        _config = config;
     }
 
     [HttpPost]
@@ -49,13 +43,19 @@ public class CatalogBffController : ControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogBrandDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetBrandsByPage(TPaginatedItemsRequest<bool> request)
+    public async Task<IActionResult> GetCatalogItems(PaginatedItemsRequest request)
     {
-        var result = await _catalogService.GetBrandsByPageAsync(
-            request.PageSize,
-            request.PageIndex);
+        var brandIdFilter = request.BrandIdFilter == 0 ? null : request.BrandIdFilter;
+        var typeIdFilter = request.TypeIdFilter == 0 ? null : request.TypeIdFilter;
+
+        var result =
+            await _catalogService.GetCatalogItemsAsync(
+                request.PageSize,
+                request.PageIndex,
+                brandIdFilter,
+                typeIdFilter);
 
         if (result != null && result.Data.Any())
         {
@@ -71,9 +71,9 @@ public class CatalogBffController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(CatalogItemDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProductById(int id)
+    public async Task<IActionResult> GetCatalogItemById(int id)
     {
-        var result = await _catalogService.GetProductByIdAsync(id);
+        var result = await _catalogService.GetCatalogItemByIdAsync(id);
 
         if (result != null)
         {
@@ -105,90 +105,6 @@ public class CatalogBffController : ControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProductsByBrandId(TPaginatedItemsRequest<int> request)
-    {
-        var result = await _catalogService.GetProductsByBrandIdAsync(
-            request.Item,
-            request.PageSize,
-            request.PageIndex);
-
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
-    }
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProductsByBrandTitle(TPaginatedItemsRequest<string> request)
-    {
-        var result = await _catalogService.GetProductsByBrandTitleAsync(
-            request.Item ?? string.Empty,
-            request.PageSize,
-            request.PageIndex);
-
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
-    }
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProductsByTypeId(TPaginatedItemsRequest<int> request)
-    {
-        var result = await _catalogService.GetProductsByTypeIdAsync(
-            request.Item,
-            request.PageSize,
-            request.PageIndex);
-
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
-    }
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProductsByTypeTitle(TPaginatedItemsRequest<string> request)
-    {
-        var result = await _catalogService.GetProductsByTypeTitleAsync(
-            request.Item ?? string.Empty,
-            request.PageSize,
-            request.PageIndex);
-
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
-    }
-
-    [HttpPost]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<CatalogTypeDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetTypes()
@@ -207,50 +123,17 @@ public class CatalogBffController : ControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogTypeDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetTypesByPage(TPaginatedItemsRequest<bool> request)
-    {
-        var result = await _catalogService.GetTypesByPageAsync(request.PageSize, request.PageIndex);
-
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
-    }
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(UserIdResponse<int>), (int)HttpStatusCode.OK)]
     public IActionResult GetUserId()
     {
-        _logger.LogWarning($"User Id: {User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value}!");
+        var userIdString = User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
 
-        return Ok();
-    }
+        var userIdNum = int.TryParse(userIdString, out var userId);
 
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Items(PaginatedItemsRequest<CatalogTypeFilter> request)
-    {
-        var result = await _catalogService.GetCatalogItemsAsync(
-            request.PageSize,
-            request.PageIndex,
-            request.Filters);
+        _logger.LogWarning($"User [ id: {userId} ] logged in successfully!");
 
-        if (result != null && result.Data.Any())
-        {
-            return Ok(result);
-        }
-        else
-        {
-            return NotFound();
-        }
+        var response = new UserIdResponse<int>() { Id = userId };
+
+        return Ok(response);
     }
 }

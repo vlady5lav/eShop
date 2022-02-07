@@ -96,38 +96,6 @@ public class CatalogTypeServiceTest
     }
 
     [Fact]
-    public async Task DeleteByTitleAsync_Failed()
-    {
-        // arrange
-        int? testResult = null;
-
-        _catalogTypeRepository
-            .Setup(s => s.DeleteByTitleAsync(It.Is<string>(i => i == _testItem.Type)))
-            .ReturnsAsync(testResult);
-
-        // act
-        var result = await _catalogTypeService.DeleteByTitleAsync(_testItem.Type);
-
-        // assert
-        result.Should().Be(testResult);
-    }
-
-    [Fact]
-    public async Task DeleteByTitleAsync_Success()
-    {
-        // arrange
-        _catalogTypeRepository
-            .Setup(s => s.DeleteByTitleAsync(It.Is<string>(i => i == _testItem.Type)))
-            .ReturnsAsync(_testItem.Id);
-
-        // act
-        var result = await _catalogTypeService.DeleteByTitleAsync(_testItem.Type);
-
-        // assert
-        result.Should().Be(_testItem.Id);
-    }
-
-    [Fact]
     public async Task UpdateAsync_Failed()
     {
         // arrange

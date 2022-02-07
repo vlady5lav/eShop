@@ -6,7 +6,5 @@ public interface ICatalogTypeService
 
     Task<int?> DeleteAsync(int id);
 
-    Task<int?> DeleteByTitleAsync(string type);
-
     Task<int?> UpdateAsync(int id, string type);
 }

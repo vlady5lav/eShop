@@ -2,19 +2,25 @@ namespace Catalog.Host.Models.Requests;
 
 public class UpdateProductRequest
 {
-    public int? AvailableStock { get; set; }
-
-    public int? CatalogBrandId { get; set; }
-
-    public int? CatalogTypeId { get; set; }
-
-    public string? Description { get; set; }
-
+    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the ID")]
+    [Range(1, int.MaxValue, ErrorMessage = "You should correctly specify the ID")]
     public int Id { get; set; }
 
     public string? Name { get; set; }
 
+    [Range(0, double.MaxValue, ErrorMessage = "You should correctly specify the Price")]
+    public decimal? Price { get; set; }
+
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Available Stock")]
+    public int? AvailableStock { get; set; }
+
+    public string? Description { get; set; }
+
     public string? PictureFileName { get; set; }
 
-    public decimal? Price { get; set; }
+    [Range(1, int.MaxValue, ErrorMessage = "You should correctly specify the Catalog Brand Id")]
+    public int? CatalogBrandId { get; set; }
+
+    [Range(1, int.MaxValue, ErrorMessage = "You should correctly specify the Catalog Type Id")]
+    public int? CatalogTypeId { get; set; }
 }

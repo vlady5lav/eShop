@@ -12,13 +12,6 @@ namespace IdentityServer
         {
             return new ApiResource[]
             {
-                new ApiResource("alevelwebsite.com")
-                {
-                    Scopes = new List<Scope>
-                    {
-                        new Scope("mvc"),
-                    },
-                },
                 new ApiResource("catalog")
                 {
                     Scopes = new List<Scope>
@@ -36,17 +29,6 @@ namespace IdentityServer
         {
             return new[]
             {
-                new Client
-                {
-                    ClientId = "mvc_pkce",
-                    ClientName = "MVC PKCE Client",
-                    AllowedGrantTypes = GrantTypes.Code,
-                    ClientSecrets = { new Secret("secret".Sha256()) },
-                    RedirectUris = { $"{configuration["MvcUrl"]}/signin-oidc" },
-                    AllowedScopes = { "openid", "profile", "mvc" },
-                    RequirePkce = true,
-                    RequireConsent = false,
-                },
                 new Client
                 {
                     ClientId = "catalog",
@@ -72,52 +54,7 @@ namespace IdentityServer
 
                     AllowedScopes =
                     {
-                        "mvc", "catalog.catalogbff", "catalog.catalogbrand", "catalog.catalogitem", "catalog.catalogtype",
-                    },
-                },
-                new Client
-                {
-                    ClientId = "basketswaggerui",
-                    ClientName = "Basket Swagger UI",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-
-                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
-
-                    AllowedScopes =
-                    {
-                        "mvc",
-                    },
-                },
-                new Client
-                {
-                    ClientId = "orderswaggerui",
-                    ClientName = "Order Swagger UI",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-
-                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
-
-                    AllowedScopes =
-                    {
-                        "mvc",
-                    },
-                },
-                new Client
-                {
-                    ClientId = "mvcswaggerui",
-                    ClientName = "MVC Swagger UI",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-
-                    RedirectUris = { $"{configuration["MvcApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{configuration["MvcApi"]}/swagger/" },
-
-                    AllowedScopes =
-                    {
-                        "mvc", "catalog.catalogbff", "catalog.catalogbrand", "catalog.catalogitem", "catalog.catalogtype",
+                        "catalog.catalogbff", "catalog.catalogbrand", "catalog.catalogitem", "catalog.catalogtype",
                     },
                 },
             };

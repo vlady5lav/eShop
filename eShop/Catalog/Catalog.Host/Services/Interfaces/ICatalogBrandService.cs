@@ -6,7 +6,5 @@ public interface ICatalogBrandService
 
     Task<int?> DeleteAsync(int id);
 
-    Task<int?> DeleteByTitleAsync(string brand);
-
     Task<int?> UpdateAsync(int id, string brand);
 }

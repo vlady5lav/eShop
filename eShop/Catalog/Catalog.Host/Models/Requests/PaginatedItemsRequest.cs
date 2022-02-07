@@ -1,11 +1,18 @@
 namespace Catalog.Host.Models.Requests;
 
-public class PaginatedItemsRequest<T>
-    where T : notnull
+public class PaginatedItemsRequest
 {
-    public Dictionary<T, int>? Filters { get; set; }
+    [Required]
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify PageIndex!")]
+    public int PageIndex { get; set; } = 0;
 
-    public int PageIndex { get; set; }
+    [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "You should correctly specify PageSize!")]
+    public int PageSize { get; set; } = 10;
 
-    public int PageSize { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify BrandIdFilter!")]
+    public int? BrandIdFilter { get; set; } = null;
+
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify TypeIdFilter!")]
+    public int? TypeIdFilter { get; set; } = null;
 }

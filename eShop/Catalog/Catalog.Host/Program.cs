@@ -35,7 +35,6 @@ builder.Services.AddSwaggerGen(options =>
                 TokenUrl = new Uri($"{authority}/connect/token"),
                 Scopes = new Dictionary<string, string>()
                 {
-                    { "mvc", "website" },
                     { "catalog.catalogbff", "catalog.catalogbff" },
                     { "catalog.catalogbrand", "catalog.catalogbrand" },
                     { "catalog.catalogitem", "catalog.catalogitem" },
@@ -81,8 +80,6 @@ builder.Services.AddCors(
             .AllowAnyHeader()
             .AllowCredentials()));
 
-builder.Services.AddRateLimit(configuration);
-
 var app = builder.Build();
 
 app.UseSwagger()
@@ -99,8 +96,6 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseRateLimit();
 
 app.UseEndpoints(endpoints =>
 {

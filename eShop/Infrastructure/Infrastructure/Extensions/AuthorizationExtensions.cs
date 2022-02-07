@@ -9,13 +9,17 @@ public static class AuthorizationExtensions
         var authority = configuration["Authorization:Authority"];
         var siteAudience = configuration["Authorization:SiteAudience"];
 
-        services.AddSingleton<IAuthorizationHandler, ScopeHandler>();
+        services.
+            AddSingleton<IAuthorizationHandler, ScopeHandler>();
+
         services
             .AddAuthentication()
             .AddJwtBearer(AuthScheme.Internal, options =>
             {
                 options.Authority = authority;
+
                 options.RequireHttpsMetadata = false;
+
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = false,
@@ -25,26 +29,31 @@ public static class AuthorizationExtensions
             {
                 options.Authority = authority;
                 options.Audience = siteAudience;
+
                 options.RequireHttpsMetadata = false;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
                 };
             });
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(AuthPolicy.AllowEndUserPolicy, policy =>
+
+        services
+            .AddAuthorization(options =>
             {
-                policy.AuthenticationSchemes.Add(AuthScheme.Site);
-                policy.RequireClaim(JwtRegisteredClaimNames.Sub);
+                options.AddPolicy(AuthPolicy.AllowEndUserPolicy, policy =>
+                {
+                    policy.AuthenticationSchemes.Add(AuthScheme.Site);
+                    policy.RequireClaim(JwtRegisteredClaimNames.Sub);
+                });
+
+                options.AddPolicy(AuthPolicy.AllowClientPolicy, policy =>
+                {
+                    policy.AuthenticationSchemes.Add(AuthScheme.Internal);
+                    policy.Requirements.Add(new DenyAnonymousAuthorizationRequirement());
+                    policy.Requirements.Add(new ScopeRequirement());
+                });
             });
-            options.AddPolicy(AuthPolicy.AllowClientPolicy, policy =>
-            {
-                policy.AuthenticationSchemes.Add(AuthScheme.Internal);
-                policy.Requirements.Add(new DenyAnonymousAuthorizationRequirement());
-                policy.Requirements.Add(new ScopeRequirement());
-            });
-        });
 
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
     }

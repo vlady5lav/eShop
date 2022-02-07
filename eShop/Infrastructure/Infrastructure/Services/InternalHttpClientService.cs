@@ -24,13 +24,14 @@ public class InternalHttpClientService : IInternalHttpClientService
     public async Task<TResponse> SendAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest? content)
     {
         var client = _clientFactory.CreateClient();
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = $"{_authConfig.Authority}/connect/token",
 
-            ClientId = _clientConfig.Id,
-            ClientSecret = _clientConfig.Secret,
-        });
+        var tokenResponse = await client.RequestClientCredentialsTokenAsync(
+            new ClientCredentialsTokenRequest
+            {
+                Address = $"{_authConfig.Authority}/connect/token",
+                ClientId = _clientConfig.Id,
+                ClientSecret = _clientConfig.Secret,
+            });
 
         client.SetBearerToken(tokenResponse.AccessToken);
 

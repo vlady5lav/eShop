@@ -59,23 +59,6 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> DeleteByTitle(string type)
-    {
-        var result = await _catalogTypeService.DeleteByTitleAsync(type);
-
-        if (result != null)
-        {
-            return NoContent();
-        }
-        else
-        {
-            return BadRequest();
-        }
-    }
-
-    [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Update(UpdateTypeRequest request)
     {
         var result = await _catalogTypeService.UpdateAsync(request.Id, request.Type);

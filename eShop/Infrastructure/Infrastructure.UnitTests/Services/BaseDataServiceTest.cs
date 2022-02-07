@@ -43,7 +43,7 @@ public class BaseDataServiceTest
                 LogLevel.Error,
                 It.IsAny<EventId>(),
                 It.Is<It.IsAnyType>((o, t) => o.ToString()!
-                    .Contains($"transaction is rolled back")),
+                    .Contains($"Transaction is rolled back")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);

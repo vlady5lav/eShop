@@ -47,47 +47,9 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         }
     }
 
-    public async Task<int?> DeleteByTitleAsync(string type)
-    {
-        var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Type == type);
-
-        if (item != null)
-        {
-            _dbContext.CatalogTypes.Remove(item);
-
-            await _dbContext.SaveChangesAsync();
-
-            return item.Id;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public async Task<PaginatedItems<CatalogType>?> GetByPageAsync(int pageSize, int pageIndex)
-    {
-        var totalItems = await _dbContext.CatalogTypes.LongCountAsync();
-
-        var itemsOnPage = await _dbContext.CatalogTypes
-            .OrderBy(ct => ct.Type)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return new PaginatedItems<CatalogType>() { TotalCount = totalItems, Data = itemsOnPage };
-    }
-
     public async Task<CatalogType?> GetByTypeIdAsync(int id)
     {
         var result = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
-
-        return result;
-    }
-
-    public async Task<CatalogType?> GetByTypeTitleAsync(string type)
-    {
-        var result = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Type == type);
 
         return result;
     }
